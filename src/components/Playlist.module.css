@@ -35,3 +35,43 @@
   background: var(--bg-hover);
   color: #e55;
 }
+
+.searchContainer {
+  display: flex;
+  align-items: center;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-full);
+  padding: 8px 12px;
+  margin: 0 var(--space-md) var(--space-md);
+}
+
+.searchIcon {
+  color: var(--text-tertiary);
+  margin-right: var(--space-sm);
+}
+
+.searchInput {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+}
+
+.searchInput::placeholder {
+  color: var(--text-tertiary);
+}
+
+.trackList {
+  display: flex;
+  flex-direction: column;
+}
+
+.emptySearch {
+  text-align: center;
+  color: var(--text-tertiary);
+  font-size: 14px;
+  padding: var(--space-xl) var(--space-md);
+}
