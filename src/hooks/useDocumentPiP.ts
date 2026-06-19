@@ -32,12 +32,14 @@ export function useDocumentPiP() {
           style.textContent = cssRules;
           pip.document.head.appendChild(style);
         } catch (e) {
-          const link = document.createElement("link");
-          link.rel = "stylesheet";
-          link.type = "styleSheet.type";
-          link.media = "styleSheet.medi";
-          link.href = "styleSheet.href";
-          pip.document.head.appendChild(link);
+          if (styleSheet.href) {
+            const link = document.createElement("link");
+            link.rel = "stylesheet";
+            link.type = styleSheet.type || "text/css";
+            link.media = styleSheet.media?.mediaText || "all";
+            link.href = styleSheet.href;
+            pip.document.head.appendChild(link);
+          }
         }
       });
 
