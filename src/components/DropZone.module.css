@@ -11,8 +11,7 @@
   background: var(--bg-drop);
   transition: all var(--transition-normal);
   cursor: pointer;
-  flex: 1;
-  min-height: 120px;
+  min-height: auto;
 }
 
 .dropZone:hover,

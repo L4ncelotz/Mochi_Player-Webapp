@@ -10,6 +10,7 @@ interface Props {
 
 export function PlayerControls({ onSeek }: Props) {
   const {
+    currentTrackId,
     isPlaying,
     currentTime,
     duration,
@@ -22,10 +23,11 @@ export function PlayerControls({ onSeek }: Props) {
     cycleRepeat,
   } = usePlayerStore();
 
+  const isDisabled = !currentTrackId;
   const fillPct = duration > 0 ? (currentTime / duration) * 100 : 0;
 
   return (
-    <div className={styles.controls}>
+    <div className={`${styles.controls} ${isDisabled ? styles.disabled : ''}`}>
       {/* Progress Bar */}
       <div className={styles.progressContainer}>
         <input
@@ -37,6 +39,7 @@ export function PlayerControls({ onSeek }: Props) {
           step={0.1}
           value={currentTime}
           onChange={(e) => onSeek(Number(e.target.value))}
+          disabled={isDisabled}
           id="progress-slider"
         />
       </div>
@@ -44,9 +47,13 @@ export function PlayerControls({ onSeek }: Props) {
       <div className={styles.controlsContent}>
         {/* Left: Time */}
         <div className={styles.leftSide}>
-          <span className={styles.timeDisplay}>
-            {formatTime(currentTime)} / {formatTime(duration)}
-          </span>
+          {isDisabled ? (
+            <span className={styles.disabledText}>Select a track to play</span>
+          ) : (
+            <span className={styles.timeDisplay}>
+              {formatTime(currentTime)} / {formatTime(duration)}
+            </span>
+          )}
         </div>
 
         {/* Center: Transport */}
@@ -54,29 +61,32 @@ export function PlayerControls({ onSeek }: Props) {
           <button
             className={`${styles.btn} ${shuffle ? styles.btnActive : ''}`}
             onClick={toggleShuffle}
+            disabled={isDisabled}
             title="Shuffle"
             id="shuffle-btn"
           >
             <Shuffle size={16} />
           </button>
-          <button className={styles.btn} onClick={prev} title="Previous" id="prev-btn">
+          <button className={styles.btn} onClick={prev} disabled={isDisabled} title="Previous" id="prev-btn">
             <SkipBack size={18} />
           </button>
           <button
             className={`${styles.btn} ${styles.playBtn}`}
             onClick={togglePlay}
+            disabled={isDisabled}
             title={isPlaying ? 'Pause' : 'Play'}
             id="play-btn"
           >
             {isPlaying ? <Pause size={20} /> : <Play size={20} />}
           </button>
-          <button className={styles.btn} onClick={next} title="Next" id="next-btn">
+          <button className={styles.btn} onClick={next} disabled={isDisabled} title="Next" id="next-btn">
             <SkipForward size={18} />
           </button>
           <div className={styles.btnWrapper}>
             <button
               className={`${styles.btn} ${repeatMode !== 'off' ? styles.btnActive : ''}`}
               onClick={cycleRepeat}
+              disabled={isDisabled}
               title={`Repeat: ${repeatMode}`}
               id="repeat-btn"
             >
@@ -86,7 +96,9 @@ export function PlayerControls({ onSeek }: Props) {
         </div>
 
         {/* Right: Volume */}
-        <VolumeSlider />
+        <div className={styles.volumeWrapper}>
+          <VolumeSlider />
+        </div>
       </div>
     </div>
   );
