@@ -1,24 +1,24 @@
+import { useEffect, useRef, useState } from 'react';
 import type { Track } from '../types/music';
 import { usePlayerStore } from '../stores/playerStore';
 import styles from './NowPlayingCard.module.css';
 
+// ─── Mascot SVGs ───────────────────────────────────────────────────────────
+
 const SleepyMascot = () => (
   <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style={{ width: '100%', height: '100%', padding: '16px' }}>
-    {/* Mochi body */}
     <ellipse cx="60" cy="68" rx="44" ry="36" fill="#FFD6E7" />
     <ellipse cx="60" cy="62" rx="44" ry="40" fill="#FFE8F3" />
-    {/* Blush */}
     <ellipse cx="40" cy="72" rx="8" ry="5" fill="#FF8DA1" opacity="0.4" />
     <ellipse cx="80" cy="72" rx="8" ry="5" fill="#FF8DA1" opacity="0.4" />
-    {/* Sleeping Eyes */}
     <path d="M44 62 Q50 66 54 62" stroke="#3D2C35" strokeWidth="2.5" strokeLinecap="round" fill="none" />
     <path d="M66 62 Q72 66 76 62" stroke="#3D2C35" strokeWidth="2.5" strokeLinecap="round" fill="none" />
-    {/* Zzz */}
     <text x="82" y="40" fontSize="16" fill="#AD56C4" opacity="0.6" fontWeight="bold">Z</text>
     <text x="96" y="30" fontSize="12" fill="#AD56C4" opacity="0.4" fontWeight="bold">z</text>
     <text x="106" y="22" fontSize="10" fill="#AD56C4" opacity="0.3" fontWeight="bold">z</text>
   </svg>
 );
+
 const AwakeMascot = () => (
   <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style={{ width: '100%', height: '100%', padding: '16px' }}>
     <ellipse cx="60" cy="68" rx="44" ry="36" fill="#FFD6E7" />
@@ -63,31 +63,115 @@ const ErrorMascot = () => (
   </svg>
 );
 
-const DynamicMascot = ({ track, isPlaying, hasError }: { track?: Track; isPlaying: boolean; hasError: boolean }) => {
-  if (!track) return <SleepyMascot />;
-  if (hasError) return <ErrorMascot />;
-  if (isPlaying) return <AwakeMascot />;
-  return <PausedMascot />;
-};
+// ─── Marquee for long titles ────────────────────────────────────────────────
+
+function MarqueeTitle({ text, className }: { text: string; className: string }) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const textRef = useRef<HTMLSpanElement>(null);
+  const [shouldScroll, setShouldScroll] = useState(false);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    const textEl = textRef.current;
+    if (!container || !textEl) return;
+
+    // Small delay to let DOM settle after text change
+    const timer = setTimeout(() => {
+      setShouldScroll(textEl.scrollWidth > container.clientWidth + 2);
+    }, 260); // after transition finishes
+
+    return () => clearTimeout(timer);
+  }, [text]);
+
+  return (
+    <div ref={containerRef} className={className} style={{ overflow: 'hidden', width: '100%' }}>
+      {shouldScroll ? (
+        <div className={styles.marqueeTrack}>
+          <span ref={textRef} className={styles.marqueeText}>{text}</span>
+          <span className={styles.marqueeText} aria-hidden="true">{text}</span>
+        </div>
+      ) : (
+        <span ref={textRef}>{text}</span>
+      )}
+    </div>
+  );
+}
+
+// ─── Main component ─────────────────────────────────────────────────────────
 
 export function NowPlayingCard({ track }: { track: Track | undefined }) {
   const { isPlaying, hasError } = usePlayerStore();
 
+  // Track ID change triggers text transition
+  const [displayTrack, setDisplayTrack] = useState(track);
+  const [textVisible, setTextVisible] = useState(true);
+  const prevIdRef = useRef(track?.id);
+
+  useEffect(() => {
+    if (track?.id === prevIdRef.current) {
+      setDisplayTrack(track); // same track, update in place (e.g. metadata load)
+      return;
+    }
+    // New track: fade out → update → fade in
+    setTextVisible(false);
+    const timer = setTimeout(() => {
+      setDisplayTrack(track);
+      prevIdRef.current = track?.id;
+      setTextVisible(true);
+    }, 180);
+    return () => clearTimeout(timer);
+  }, [track]);
+
+  const mascot = () => {
+    if (!displayTrack) return <SleepyMascot />;
+    if (hasError) return <ErrorMascot />;
+    if (isPlaying) return <AwakeMascot />;
+    return <PausedMascot />;
+  };
+
   return (
     <div className={styles.card}>
-      <div className={styles.cardWrapper}>
-        <div className={`${styles.artWrapper} ${isPlaying ? styles.artPlaying : ''}`}>
-          {track?.coverArt ? (
-            <img className={styles.artImage} src={track.coverArt} alt="Album art" />
-          ) : (
-            <div className={styles.artPlaceholder}>
-              <DynamicMascot track={track} isPlaying={isPlaying} hasError={hasError} />
+      {/* Ambient blob behind the card */}
+      {isPlaying && <div className={styles.ambientBlob} />}
+
+      <div className={`${styles.cardWrapper} ${isPlaying ? styles.cardPlaying : ''}`}>
+        {/* Art / Mascot area */}
+        <div className={styles.artOuter}>
+          {/* Glow ring — visible only when playing */}
+          {isPlaying && <div className={styles.glowRing} />}
+
+          <div className={`${styles.artWrapper} ${isPlaying ? styles.artFloat : ''}`}>
+            {displayTrack?.coverArt ? (
+              <img className={styles.artImage} src={displayTrack.coverArt} alt="Album art" />
+            ) : (
+              <div className={styles.artPlaceholder}>
+                {mascot()}
+              </div>
+            )}
+          </div>
+
+          {/* Floating music notes — only when playing and no cover */}
+          {isPlaying && !displayTrack?.coverArt && (
+            <div className={styles.notesContainer} aria-hidden="true">
+              <span className={`${styles.note} ${styles.note1}`}>♪</span>
+              <span className={`${styles.note} ${styles.note2}`}>♫</span>
+              <span className={`${styles.note} ${styles.note3}`}>♩</span>
             </div>
           )}
         </div>
+
+        {/* Text info */}
         <div className={styles.info}>
-          {track ? (
-            <div className={styles.textGroup}>
+          {displayTrack ? (
+            <div
+              className={styles.textGroup}
+              style={{
+                opacity: textVisible ? 1 : 0,
+                transform: textVisible ? 'translateY(0)' : 'translateY(6px)',
+                transition: 'opacity 180ms ease, transform 180ms ease',
+              }}
+            >
+              {/* Status label */}
               {isPlaying ? (
                 <div className={styles.statusLabel}>
                   <div className={styles.visualizer}>
@@ -99,10 +183,27 @@ export function NowPlayingCard({ track }: { track: Track | undefined }) {
                   Now playing
                 </div>
               ) : (
-                <div className={styles.statusLabel}>Paused</div>
+                <div className={styles.statusLabel}>
+                  {hasError ? 'Error' : 'Paused'}
+                </div>
               )}
-              <div className={styles.title}>{track.title}</div>
-              <div className={styles.artist}>{track.artist || 'Unknown artist'}</div>
+
+              {/* Title — marquee if long */}
+              <MarqueeTitle text={displayTrack.title} className={styles.title} />
+
+              {/* Artist */}
+              <div
+                className={styles.artist}
+                style={{
+                  opacity: textVisible ? 1 : 0,
+                  transform: textVisible ? 'translateY(0)' : 'translateY(4px)',
+                  transition: 'opacity 180ms ease 40ms, transform 180ms ease 40ms',
+                  color: displayTrack.artist ? undefined : 'var(--text-tertiary)',
+                  fontStyle: displayTrack.artist ? 'normal' : 'italic',
+                }}
+              >
+                {displayTrack.artist || 'Unknown artist'}
+              </div>
             </div>
           ) : (
             <div className={styles.noTrack}>
@@ -115,4 +216,3 @@ export function NowPlayingCard({ track }: { track: Track | undefined }) {
     </div>
   );
 }
-
