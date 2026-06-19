@@ -8,9 +8,10 @@ import styles from './TrackRow.module.css';
 interface Props {
   track: Track;
   index: number;
+  onContextMenu?: (e: React.MouseEvent, trackId: string) => void;
 }
 
-export const TrackRow = memo(function TrackRow({ track, index }: Props) {
+export const TrackRow = memo(function TrackRow({ track, index, onContextMenu }: Props) {
   const { currentTrackId, isPlaying, play, pause, removeTrack } = usePlayerStore();
   const isCurrent = currentTrackId === track.id;
 
@@ -28,10 +29,18 @@ export const TrackRow = memo(function TrackRow({ track, index }: Props) {
     removeTrack(track.id);
   };
 
+  const handleContextMenu = (e: React.MouseEvent) => {
+    if (onContextMenu) {
+      e.preventDefault();
+      onContextMenu(e, track.id);
+    }
+  };
+
   return (
     <div
       className={`${styles.row} ${isCurrent ? styles.active : ''}`}
       onClick={() => play(track.id)}
+      onContextMenu={handleContextMenu}
       style={{ '--index': index } as React.CSSProperties}
       id={`track-row-${track.id}`}
     >

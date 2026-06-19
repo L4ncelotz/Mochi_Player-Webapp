@@ -26,6 +26,13 @@ interface PlayerStore {
   next: () => void;
   prev: () => void;
 
+  // Queue
+  queue: string[];
+  playNext: (id: string) => void;
+  addToQueue: (id: string) => void;
+  removeFromQueue: (index: number) => void;
+  clearQueue: () => void;
+
   // Volume
   volume: number;
   setVolume: (v: number) => void;
@@ -51,6 +58,7 @@ const stored = loadState();
 
 export const usePlayerStore = create<PlayerStore>((set, get) => ({
   tracks: [],
+  queue: [],
   currentTrackId: undefined,
   isPlaying: false,
   currentTime: 0,
@@ -128,8 +136,20 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
   setError: (e) => set({ hasError: e }),
 
   next: () => {
-    const { tracks, currentTrackId, shuffle, repeatMode } = get();
+    const { tracks, currentTrackId, shuffle, repeatMode, queue } = get();
     if (tracks.length === 0) return;
+
+    if (queue.length > 0) {
+      const nextId = queue[0];
+      set({
+        queue: queue.slice(1),
+        currentTrackId: nextId,
+        currentTime: 0,
+        isPlaying: true,
+        hasError: false
+      });
+      return;
+    }
 
     if (repeatMode === 'one') {
       set({ currentTime: 0, isPlaying: true, hasError: false });
@@ -174,6 +194,25 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
       set({ currentTime: 0 });
     }
   },
+
+  playNext: (id) => {
+    set((s) => ({ queue: [id, ...s.queue] }));
+  },
+
+  addToQueue: (id) => {
+    set((s) => ({ queue: [...s.queue, id] }));
+  },
+
+  removeFromQueue: (index) => {
+    set((s) => {
+      const newQueue = [...s.queue];
+      newQueue.splice(index, 1);
+      return { queue: newQueue };
+    });
+  },
+
+  clearQueue: () => set({ queue: [] }),
+
 
   setVolume: (v) => {
     set({ volume: v, isMuted: false });

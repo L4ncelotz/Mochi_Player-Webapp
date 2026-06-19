@@ -3,12 +3,15 @@ import { Search } from 'lucide-react';
 import { usePlayerStore } from '../stores/playerStore';
 import { TrackRow } from './TrackRow';
 import { DropZone } from './DropZone';
+import { QueuePanel } from './QueuePanel';
+import { TrackContextMenu } from './TrackContextMenu';
 import styles from './Playlist.module.css';
 
 export function Playlist() {
   const tracks = usePlayerStore((s) => s.tracks);
   const clearPlaylist = usePlayerStore((s) => s.clearPlaylist);
   const [searchQuery, setSearchQuery] = useState('');
+  const [contextMenu, setContextMenu] = useState<{ x: number; y: number; trackId: string } | null>(null);
 
   if (tracks.length === 0) return null;
 
@@ -43,13 +46,29 @@ export function Playlist() {
 
       <div className={styles.trackList}>
         {filteredTracks.map((track) => (
-          <TrackRow key={track.id} track={track} index={tracks.indexOf(track)} />
+          <TrackRow 
+            key={track.id} 
+            track={track} 
+            index={tracks.indexOf(track)} 
+            onContextMenu={(e, trackId) => setContextMenu({ x: e.clientX, y: e.clientY, trackId })}
+          />
         ))}
         {filteredTracks.length === 0 && (
           <div className={styles.emptySearch}>No tracks found for "{searchQuery}"</div>
         )}
       </div>
+
+      <QueuePanel />
       <DropZone small />
+
+      {contextMenu && (
+        <TrackContextMenu 
+          trackId={contextMenu.trackId} 
+          x={contextMenu.x} 
+          y={contextMenu.y} 
+          onClose={() => setContextMenu(null)} 
+        />
+      )}
     </div>
   );
 }
