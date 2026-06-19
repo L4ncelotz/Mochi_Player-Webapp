@@ -11,6 +11,7 @@ import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts';
 import { useFileImport } from './hooks/useFileImport';
 import { useMediaSession } from './hooks/useMediaSession';
 import { usePlayerStore } from './stores/playerStore';
+import styles from './App.module.css';
 
 export default function App() {
   const tracks = usePlayerStore((s) => s.tracks);
@@ -38,18 +39,18 @@ export default function App() {
   const hasPlaylist = tracks.length > 0;
 
   return (
-    <div onDragOver={handleDragOver} onDrop={handleDrop}>
+    <div onDragOver={handleDragOver} onDrop={handleDrop} className={styles.appContainer}>
       <AppShell>
         <TitleBar />
-        {hasPlaylist ? (
-          <>
-            <NowPlayingCard track={currentTrack} />
-            <PlayerControls onSeek={seek} />
-            <Playlist />
-          </>
-        ) : (
-          <DropZone />
-        )}
+        <main className={styles.mainContent}>
+          <aside className={styles.sidebar}>
+            {hasPlaylist ? <Playlist /> : <DropZone />}
+          </aside>
+          <section className={styles.centerStage}>
+            {hasPlaylist && <NowPlayingCard track={currentTrack} />}
+          </section>
+        </main>
+        {hasPlaylist && <PlayerControls onSeek={seek} />}
         <ToastHost />
       </AppShell>
     </div>
