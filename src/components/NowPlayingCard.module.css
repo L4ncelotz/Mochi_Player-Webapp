@@ -15,6 +15,16 @@
   flex-shrink: 0;
   background: linear-gradient(135deg, var(--peach), var(--bubblegum));
   box-shadow: var(--shadow-md);
+  transition: transform var(--transition-normal);
+}
+
+.artPlaying {
+  animation: gentlePulse 2s ease-in-out infinite;
+}
+
+@keyframes gentlePulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.03); }
 }
 
 .artImage {
