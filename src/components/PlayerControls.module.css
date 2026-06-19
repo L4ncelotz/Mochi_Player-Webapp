@@ -1,37 +1,48 @@
 .controls {
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm);
   padding: 0 var(--space-lg) var(--space-md);
   flex-shrink: 0;
+  background: var(--bg-primary);
+  border-top: 1px solid var(--border-light);
+  height: 90px;
+  justify-content: center;
 }
 
-/* Progress */
-.progressRow {
+.progressContainer {
+  width: 100%;
+  margin-bottom: var(--space-xs);
   display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-}
-
-.time {
-  font-size: 11px;
-  color: var(--text-tertiary);
-  font-weight: 500;
-  min-width: 36px;
-  font-variant-numeric: tabular-nums;
-}
-
-.timeRight {
-  text-align: right;
 }
 
 .progressSlider {
   flex: 1;
-  height: 20px;
+  height: 12px;
+  margin-top: -10px;
 }
 
-/* Transport */
+.controlsContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.leftSide {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.timeDisplay {
+  font-size: 12px;
+  color: var(--text-tertiary);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
 .transport {
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -81,12 +92,12 @@
   box-shadow: 0 4px 14px rgba(255, 156, 233, 0.4);
 }
 
-/* Volume */
 .volumeRow {
+  flex: 1;
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   gap: var(--space-sm);
-  padding: 0 var(--space-xs);
 }
 
 .volumeIcon {
@@ -98,8 +109,13 @@
 }
 
 .volumeSlider {
-  flex: 1;
+  width: 100px;
   height: 20px;
+}
+
+.btnWrapper {
+  position: relative;
+  display: inline-flex;
 }
 
 .repeatLabel {
@@ -109,9 +125,4 @@
   right: -2px;
   color: var(--pink);
   font-weight: 700;
-}
-
-.btnWrapper {
-  position: relative;
-  display: inline-flex;
 }

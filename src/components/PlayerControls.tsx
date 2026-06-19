@@ -1,7 +1,7 @@
 import { usePlayerStore } from '../stores/playerStore';
 import { formatTime } from '../utils/time';
-import styles from './PlayerControls.module.css';
 import { VolumeSlider } from './VolumeSlider';
+import styles from './PlayerControls.module.css';
 
 interface Props {
   onSeek: (time: number) => void;
@@ -12,22 +12,19 @@ export function PlayerControls({ onSeek }: Props) {
     isPlaying,
     currentTime,
     duration,
-    volume,
     shuffle,
     repeatMode,
     togglePlay,
     prev,
     next,
-    setVolume,
     toggleShuffle,
     cycleRepeat,
   } = usePlayerStore();
 
   return (
     <div className={styles.controls}>
-      {/* Progress */}
-      <div className={styles.progressRow}>
-        <span className={styles.time}>{formatTime(currentTime)}</span>
+      {/* Progress Bar (Full width at top) */}
+      <div className={styles.progressContainer}>
         <input
           className={styles.progressSlider}
           type="range"
@@ -38,48 +35,56 @@ export function PlayerControls({ onSeek }: Props) {
           onChange={(e) => onSeek(Number(e.target.value))}
           id="progress-slider"
         />
-        <span className={`${styles.time} ${styles.timeRight}`}>{formatTime(duration)}</span>
       </div>
 
-      {/* Transport */}
-      <div className={styles.transport}>
-        <button
-          className={`${styles.btn} ${shuffle ? styles.btnActive : ''}`}
-          onClick={toggleShuffle}
-          title="Shuffle"
-          id="shuffle-btn"
-        >
-          🔀
-        </button>
-        <button className={styles.btn} onClick={prev} title="Previous" id="prev-btn">
-          ⏮
-        </button>
-        <button
-          className={`${styles.btn} ${styles.playBtn}`}
-          onClick={togglePlay}
-          title={isPlaying ? 'Pause' : 'Play'}
-          id="play-btn"
-        >
-          {isPlaying ? '⏸' : '▶'}
-        </button>
-        <button className={styles.btn} onClick={next} title="Next" id="next-btn">
-          ⏭
-        </button>
-        <div className={styles.btnWrapper}>
-          <button
-            className={`${styles.btn} ${repeatMode !== 'off' ? styles.btnActive : ''}`}
-            onClick={cycleRepeat}
-            title={`Repeat: ${repeatMode}`}
-            id="repeat-btn"
-          >
-            🔁
-          </button>
-          {repeatMode === 'one' && <span className={styles.repeatLabel}>1</span>}
+      <div className={styles.controlsContent}>
+        {/* Left: Track Info Placeholder */}
+        <div className={styles.leftSide}>
+          <span className={styles.timeDisplay}>
+            {formatTime(currentTime)} / {formatTime(duration)}
+          </span>
         </div>
-      </div>
 
-      {/* Volume */}
-      <VolumeSlider />
+        {/* Center: Transport */}
+        <div className={styles.transport}>
+          <button
+            className={`${styles.btn} ${shuffle ? styles.btnActive : ''}`}
+            onClick={toggleShuffle}
+            title="Shuffle"
+            id="shuffle-btn"
+          >
+            🔀
+          </button>
+          <button className={styles.btn} onClick={prev} title="Previous" id="prev-btn">
+            ⏮
+          </button>
+          <button
+            className={`${styles.btn} ${styles.playBtn}`}
+            onClick={togglePlay}
+            title={isPlaying ? 'Pause' : 'Play'}
+            id="play-btn"
+          >
+            {isPlaying ? '⏸' : '▶'}
+          </button>
+          <button className={styles.btn} onClick={next} title="Next" id="next-btn">
+            ⏭
+          </button>
+          <div className={styles.btnWrapper}>
+            <button
+              className={`${styles.btn} ${repeatMode !== 'off' ? styles.btnActive : ''}`}
+              onClick={cycleRepeat}
+              title={`Repeat: ${repeatMode}`}
+              id="repeat-btn"
+            >
+              🔁
+            </button>
+            {repeatMode === 'one' && <span className={styles.repeatLabel}>1</span>}
+          </div>
+        </div>
+
+        {/* Right: Volume */}
+        <VolumeSlider />
+      </div>
     </div>
   );
 }
