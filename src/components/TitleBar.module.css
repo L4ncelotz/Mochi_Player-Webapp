@@ -1,0 +1,32 @@
+.titleBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-md) var(--space-lg);
+  flex-shrink: 0;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.logoIcon {
+  font-size: 20px;
+}
+
+.logoText {
+  font-size: 16px;
+  font-weight: 600;
+  background: linear-gradient(135deg, var(--pink), var(--purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.trackCount {
+  font-size: 12px;
+  color: var(--text-tertiary);
+  font-weight: 400;
+}

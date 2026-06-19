@@ -1,0 +1,22 @@
+.playlist {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-sm) var(--space-sm);
+  min-height: 0;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-xs) var(--space-md);
+  margin-bottom: var(--space-xs);
+}
+
+.headerTitle {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-tertiary);
+}

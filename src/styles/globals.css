@@ -1,0 +1,111 @@
+@import './tokens.css';
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: var(--font-family);
+  background: linear-gradient(135deg, #FFF0ED 0%, #FFF5FA 50%, #F5EEFF 100%);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-medium);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--pink-light);
+}
+
+/* Button reset */
+button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: inherit;
+  color: inherit;
+  outline: none;
+}
+
+button:focus-visible {
+  outline: 2px solid var(--purple);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* Input range reset */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+  outline: none;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: var(--radius-full);
+  background: var(--border-light);
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--pink);
+  margin-top: -5px;
+  border: 2px solid var(--bg-card);
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-fast);
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+input[type="range"]::-moz-range-track {
+  height: 4px;
+  border-radius: var(--radius-full);
+  background: var(--border-light);
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--pink);
+  border: 2px solid var(--bg-card);
+  box-shadow: var(--shadow-sm);
+}

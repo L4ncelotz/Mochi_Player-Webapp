@@ -1,0 +1,117 @@
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding: 0 var(--space-lg) var(--space-md);
+  flex-shrink: 0;
+}
+
+/* Progress */
+.progressRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.time {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  font-weight: 500;
+  min-width: 36px;
+  font-variant-numeric: tabular-nums;
+}
+
+.timeRight {
+  text-align: right;
+}
+
+.progressSlider {
+  flex: 1;
+  height: 20px;
+}
+
+/* Transport */
+.transport {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md);
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  font-size: 16px;
+  color: var(--text-secondary);
+  transition: all var(--transition-fast);
+}
+
+.btn:hover {
+  color: var(--text-primary);
+  background: var(--bg-hover);
+}
+
+.btnActive {
+  color: var(--pink);
+}
+
+.btnActive:hover {
+  color: var(--purple);
+  background: var(--bg-active);
+}
+
+.playBtn {
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(135deg, var(--pink), var(--bubblegum));
+  color: var(--text-on-accent);
+  font-size: 18px;
+  box-shadow: 0 2px 8px rgba(255, 141, 161, 0.35);
+  transition: all var(--transition-fast);
+}
+
+.playBtn:hover {
+  background: linear-gradient(135deg, var(--bubblegum), var(--purple));
+  color: var(--text-on-accent);
+  transform: scale(1.05);
+  box-shadow: 0 4px 14px rgba(255, 156, 233, 0.4);
+}
+
+/* Volume */
+.volumeRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: 0 var(--space-xs);
+}
+
+.volumeIcon {
+  font-size: 14px;
+  color: var(--text-tertiary);
+  cursor: pointer;
+  width: 20px;
+  text-align: center;
+}
+
+.volumeSlider {
+  flex: 1;
+  height: 20px;
+}
+
+.repeatLabel {
+  font-size: 10px;
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  color: var(--pink);
+  font-weight: 700;
+}
+
+.btnWrapper {
+  position: relative;
+  display: inline-flex;
+}
