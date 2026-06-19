@@ -4,6 +4,7 @@ import styles from './Playlist.module.css';
 
 export function Playlist() {
   const tracks = usePlayerStore((s) => s.tracks);
+  const clearPlaylist = usePlayerStore((s) => s.clearPlaylist);
 
   if (tracks.length === 0) return null;
 
@@ -11,6 +12,9 @@ export function Playlist() {
     <div className={styles.playlist} id="playlist">
       <div className={styles.header}>
         <span className={styles.headerTitle}>Playlist</span>
+        <button className={styles.clearBtn} onClick={clearPlaylist}>
+          Clear
+        </button>
       </div>
       {tracks.map((track, i) => (
         <TrackRow key={track.id} track={track} index={i} />

@@ -7,6 +7,7 @@ interface PlayerStore {
   tracks: Track[];
   addTracks: (tracks: Track[]) => void;
   removeTrack: (id: string) => void;
+  clearPlaylist: () => void;
 
   // Playback
   currentTrackId: string | undefined;
@@ -77,6 +78,22 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
         update.duration = 0;
       }
       return update;
+    });
+    get().persist();
+  },
+
+  clearPlaylist: () => {
+    set((s) => {
+      s.tracks.forEach((t) => {
+        if (t.objectUrl) URL.revokeObjectURL(t.objectUrl);
+      });
+      return {
+        tracks: [],
+        currentTrackId: undefined,
+        isPlaying: false,
+        currentTime: 0,
+        duration: 0,
+      };
     });
     get().persist();
   },
