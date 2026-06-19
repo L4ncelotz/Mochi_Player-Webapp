@@ -1,3 +1,4 @@
+import { Music } from 'lucide-react';
 import type { WidgetState } from './WidgetApp';
 import styles from './Widget.module.css';
 
@@ -18,7 +19,9 @@ export function CompactWidget({ state }: Props) {
           alt="Album art"
         />
       ) : (
-        <div className={`${styles.compactPlaceholder} ${isPlaying ? styles.pulse : ''}`}>🎵</div>
+        <div className={`${styles.compactPlaceholder} ${isPlaying ? styles.pulse : ''}`}>
+          <Music size={24} />
+        </div>
       )}
       
       <div className={styles.compactInfo}>

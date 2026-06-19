@@ -120,12 +120,21 @@
   gap: var(--space-sm);
 }
 
-.volumeIcon {
-  font-size: 14px;
-  color: var(--text-tertiary);
+.volumeIconBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
   cursor: pointer;
-  width: 20px;
-  text-align: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-full);
+  transition: all var(--transition-fast);
+}
+
+.volumeIconBtn:hover {
+  color: var(--pink);
+  background: var(--bg-hover);
 }
 
 .volumeSlider {

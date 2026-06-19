@@ -41,7 +41,7 @@ export function WidgetApp() {
 
   if (!state.track && !state.isPlaying) {
     // Default empty state before first sync
-    return <div className={styles.empty}>Mochi Widget Ready 🍡</div>;
+    return <div className={styles.empty}>Mochi Widget Ready</div>;
   }
 
   return (

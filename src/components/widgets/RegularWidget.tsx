@@ -1,3 +1,4 @@
+import { Music } from 'lucide-react';
 import type { WidgetState } from './WidgetApp';
 import styles from './Widget.module.css';
 
@@ -19,14 +20,16 @@ export function RegularWidget({ state }: Props) {
       )}
       
       <div className={styles.regularArtWrapper}>
-        {track.coverArt ? (
-          <img
-            className={`${styles.regularArt} ${isPlaying ? styles.pulse : ''}`}
-            src={track.coverArt}
-            alt="Album art"
+        {state.track?.coverArt ? (
+          <img 
+            src={state.track.coverArt} 
+            className={`${styles.regularArt} ${isPlaying ? styles.pulse : ''}`} 
+            alt="Album art" 
           />
         ) : (
-          <div className={`${styles.regularPlaceholder} ${isPlaying ? styles.pulse : ''}`}>🎵</div>
+          <div className={`${styles.regularPlaceholder} ${isPlaying ? styles.pulse : ''}`}>
+            <Music size={32} />
+          </div>
         )}
       </div>
 
