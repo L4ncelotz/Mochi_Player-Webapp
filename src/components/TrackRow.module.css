@@ -168,5 +168,17 @@
 }
 
 .isFavorite {
-  color: var(--pink);
+  color: var(--text-primary);
+}
+
+.moodBadge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-full);
+  background: rgba(var(--mood-color, #000), 0.15);
+  color: var(--mood-color);
+  margin-right: 4px;
 }

@@ -38,9 +38,40 @@
 }
 
 .active {
-  background: var(--bg-active);
-  color: var(--pink);
-  font-weight: 600;
+  background: var(--bg-hover);
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.moodPills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 0 12px;
+}
+
+.moodPill {
+  padding: 4px 10px;
+  border-radius: 12px;
+  border: 1px solid var(--border-light);
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.moodPill:hover {
+  background: rgba(var(--mood-color, #000), 0.1);
+  border-color: rgba(var(--mood-color, #000), 0.3);
+  color: var(--mood-color);
+}
+
+.moodPillActive {
+  background: rgba(var(--mood-color, #000), 0.15);
+  border-color: var(--mood-color);
+  color: var(--mood-color);
 }
 
 .active:hover {

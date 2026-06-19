@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { Play, ListPlus, SkipForward, Heart, HeartOff } from 'lucide-react';
 import { usePlayerStore } from '../stores/playerStore';
+import { MOODS } from '../utils/moods';
 import styles from './TrackContextMenu.module.css';
 
 interface Props {
@@ -11,7 +12,7 @@ interface Props {
 }
 
 export function TrackContextMenu({ trackId, x, y, onClose }: Props) {
-  const { play, playNext, addToQueue, favorites, toggleFavorite } = usePlayerStore();
+  const { play, playNext, addToQueue, favorites, toggleFavorite, trackMoods, toggleMood } = usePlayerStore();
   const menuRef = useRef<HTMLDivElement>(null);
   
   const isFavorite = favorites.includes(trackId);
@@ -67,6 +68,27 @@ export function TrackContextMenu({ trackId, x, y, onClose }: Props) {
         {isFavorite ? <HeartOff size={14} className={styles.icon} /> : <Heart size={14} className={styles.icon} />}
         {isFavorite ? 'Remove from favorites' : 'Add to favorites'}
       </button>
+      
+      <div className={styles.divider} />
+      <div className={styles.sectionTitle}>Mood</div>
+      <div className={styles.moodGrid}>
+        {MOODS.map((mood) => {
+          const Icon = mood.icon;
+          const isActive = trackMoods[trackId]?.includes(mood.id);
+          return (
+            <button
+              key={mood.id}
+              className={`${styles.moodBtn} ${isActive ? styles.moodActive : ''}`}
+              onClick={() => handleAction(() => toggleMood(trackId, mood.id))}
+              title={mood.label}
+              style={{ '--mood-color': mood.color } as React.CSSProperties}
+            >
+              <Icon size={14} />
+              <span>{mood.label}</span>
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 }

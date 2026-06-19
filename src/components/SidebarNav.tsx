@@ -1,8 +1,9 @@
 import { ListMusic, Heart, Clock, BarChart2, BookOpen } from 'lucide-react';
 import { usePlayerStore } from '../stores/playerStore';
+import { MOODS } from '../utils/moods';
 import styles from './SidebarNav.module.css';
 
-export type PlaylistView = 'all' | 'favorites' | 'recent' | 'mostPlayed';
+export type PlaylistView = 'all' | 'favorites' | 'recent' | 'mostPlayed' | string;
 
 interface Props {
   currentView: PlaylistView;
@@ -52,6 +53,23 @@ export function SidebarNav({ currentView, onChangeView }: Props) {
         <BookOpen size={16} />
         <span>Mochi Diary</span>
       </button>
+
+      <div className={styles.section} style={{ marginTop: '24px' }}>Moods</div>
+      <div className={styles.moodPills}>
+        {MOODS.map(mood => {
+          const isActive = currentView === `mood:${mood.id}`;
+          return (
+            <button
+              key={mood.id}
+              className={`${styles.moodPill} ${isActive ? styles.moodPillActive : ''}`}
+              onClick={() => onChangeView(`mood:${mood.id}`)}
+              style={{ '--mood-color': mood.color } as React.CSSProperties}
+            >
+              {mood.label}
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 }

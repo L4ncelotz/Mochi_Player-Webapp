@@ -6,6 +6,7 @@ import { DropZone } from './DropZone';
 import { QueuePanel } from './QueuePanel';
 import { TrackContextMenu } from './TrackContextMenu';
 import { SidebarNav, type PlaylistView } from './SidebarNav';
+import { MOODS } from '../utils/moods';
 import styles from './Playlist.module.css';
 
 export function Playlist() {
@@ -34,6 +35,11 @@ export function Playlist() {
       .sort((a, b) => (playCounts[b.id] || 0) - (playCounts[a.id] || 0))
       .slice(0, 50);
     viewTitle = 'Most Played';
+  } else if (currentView.startsWith('mood:')) {
+    const moodId = currentView.split(':')[1];
+    viewTracks = tracks.filter(t => usePlayerStore.getState().trackMoods[t.id]?.includes(moodId));
+    const moodDef = MOODS.find((m) => m.id === moodId);
+    viewTitle = moodDef ? `${moodDef.label} Mood` : 'Mood Playlist';
   }
 
   // 2. Filter by Search

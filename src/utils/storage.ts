@@ -18,6 +18,7 @@ interface StoredData {
   playHistory?: string[];
   playCounts?: Record<string, number>;
   dailySeconds?: Record<string, number>;
+  trackMoods?: Record<string, string[]>;
 }
 
 export function loadState(): StoredData | null {

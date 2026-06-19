@@ -38,9 +38,11 @@ interface PlayerStore {
   playHistory: string[];
   playCounts: Record<string, number>;
   dailySeconds: Record<string, number>;
+  trackMoods: Record<string, string[]>;
   toggleFavorite: (id: string) => void;
   recordPlay: (id: string) => void;
   addListenTime: (seconds: number) => void;
+  toggleMood: (id: string, mood: string) => void;
 
   // UI State
   isDiaryOpen: boolean;
@@ -86,6 +88,7 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
   playHistory: stored?.playHistory ?? [],
   playCounts: stored?.playCounts ?? {},
   dailySeconds: stored?.dailySeconds ?? {},
+  trackMoods: stored?.trackMoods ?? {},
 
   isDiaryOpen: false,
   toggleDiary: () => set((s) => ({ isDiaryOpen: !s.isDiaryOpen })),
@@ -247,6 +250,23 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
     get().persist();
   },
 
+  toggleMood: (id, mood) => {
+    set((s) => {
+      const currentMoods = s.trackMoods[id] || [];
+      const newMoods = currentMoods.includes(mood)
+        ? currentMoods.filter(m => m !== mood)
+        : [...currentMoods, mood];
+      
+      return {
+        trackMoods: {
+          ...s.trackMoods,
+          [id]: newMoods,
+        }
+      };
+    });
+    get().persist();
+  },
+
   recordPlay: (id) => {
     set((s) => {
       const playHistory = [id, ...s.playHistory.filter((h) => h !== id)].slice(0, 50);
@@ -307,7 +327,7 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
   clearToast: () => set({ toast: null }),
 
   persist: () => {
-    const { tracks, volume, isMuted, shuffle, repeatMode, favorites, playHistory, playCounts, dailySeconds } = get();
+    const { tracks, volume, isMuted, shuffle, repeatMode, favorites, playHistory, playCounts, dailySeconds, trackMoods } = get();
     saveState({
       playlist: tracks.map((t) => ({
         id: t.id,
@@ -326,6 +346,7 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
       playHistory,
       playCounts,
       dailySeconds,
+      trackMoods,
     });
   },
 }));

@@ -53,3 +53,49 @@
   background: var(--border-light);
   margin: 4px 0;
 }
+
+.sectionTitle {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  padding: 4px 12px;
+  margin-top: 4px;
+}
+
+.moodGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  padding: 0 8px 8px;
+}
+
+.moodBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 12px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.moodBtn:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.moodActive {
+  background: rgba(var(--mood-color, #000), 0.1);
+  color: var(--mood-color);
+  border-color: rgba(var(--mood-color, #000), 0.2);
+}
+
+.moodActive:hover {
+  background: rgba(var(--mood-color, #000), 0.15);
+  color: var(--mood-color);
+}

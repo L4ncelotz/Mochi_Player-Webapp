@@ -3,6 +3,7 @@ import { memo } from 'react';
 import { usePlayerStore } from '../stores/playerStore';
 import type { Track } from '../types/music';
 import { formatTime } from '../utils/time';
+import { MOODS } from '../utils/moods';
 import styles from './TrackRow.module.css';
 
 interface Props {
@@ -12,9 +13,10 @@ interface Props {
 }
 
 export const TrackRow = memo(function TrackRow({ track, index, onContextMenu }: Props) {
-  const { currentTrackId, isPlaying, play, pause, removeTrack, favorites, toggleFavorite } = usePlayerStore();
+  const { currentTrackId, isPlaying, play, pause, removeTrack, favorites, toggleFavorite, trackMoods } = usePlayerStore();
   const isCurrent = currentTrackId === track.id;
   const isFavorite = favorites.includes(track.id);
+  const moods = trackMoods[track.id] || [];
 
   const handlePlayPause = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -72,6 +74,22 @@ export const TrackRow = memo(function TrackRow({ track, index, onContextMenu }: 
       >
         <Heart size={14} fill={isFavorite ? "currentColor" : "none"} />
       </button>
+
+      {moods.slice(0, 2).map(moodId => {
+        const def = MOODS.find(m => m.id === moodId);
+        if (!def) return null;
+        const Icon = def.icon;
+        return (
+          <span 
+            key={moodId} 
+            className={styles.moodBadge}
+            style={{ '--mood-color': def.color } as React.CSSProperties}
+            title={def.label}
+          >
+            <Icon size={12} />
+          </span>
+        );
+      })}
 
       <span className={styles.badge}>{track.extension}</span>
       
