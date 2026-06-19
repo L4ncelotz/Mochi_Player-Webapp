@@ -19,25 +19,16 @@ export function CenterStageEmpty() {
   return (
     <div className={styles.wrapper}>
       <div className={styles.mascot}>
-        <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          {/* Mochi body */}
+        <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style={{ width: '100%', height: '100%' }}>
           <ellipse cx="60" cy="68" rx="44" ry="36" fill="#FFD6E7" />
           <ellipse cx="60" cy="62" rx="44" ry="40" fill="#FFE8F3" />
-          {/* Blush */}
           <ellipse cx="40" cy="72" rx="8" ry="5" fill="#FF8DA1" opacity="0.4" />
           <ellipse cx="80" cy="72" rx="8" ry="5" fill="#FF8DA1" opacity="0.4" />
-          {/* Eyes */}
-          <circle cx="50" cy="60" r="4" fill="#3D2C35" />
-          <circle cx="70" cy="60" r="4" fill="#3D2C35" />
-          <circle cx="51.5" cy="58.5" r="1.5" fill="white" />
-          <circle cx="71.5" cy="58.5" r="1.5" fill="white" />
-          {/* Smile */}
-          <path d="M54 70 Q60 76 66 70" stroke="#3D2C35" strokeWidth="2" strokeLinecap="round" fill="none" />
-          {/* Music notes */}
-          <text x="16" y="40" fontSize="16" fill="#FF8DA1" opacity="0.6">♪</text>
-          <text x="92" y="36" fontSize="12" fill="#AD56C4" opacity="0.5">♫</text>
-          <text x="8" y="75" fontSize="10" fill="#FFC2BA" opacity="0.5">♩</text>
-          <text x="100" y="70" fontSize="14" fill="#FF9CE9" opacity="0.5">♪</text>
+          <path d="M44 62 Q50 66 54 62" stroke="#3D2C35" strokeWidth="2.5" strokeLinecap="round" fill="none" />
+          <path d="M66 62 Q72 66 76 62" stroke="#3D2C35" strokeWidth="2.5" strokeLinecap="round" fill="none" />
+          <text x="82" y="40" fontSize="16" fill="#AD56C4" opacity="0.6" fontWeight="bold">Z</text>
+          <text x="96" y="30" fontSize="12" fill="#AD56C4" opacity="0.4" fontWeight="bold">z</text>
+          <text x="106" y="22" fontSize="10" fill="#AD56C4" opacity="0.3" fontWeight="bold">z</text>
         </svg>
       </div>
       <p className={styles.heading}>No music yet</p>

@@ -14,11 +14,13 @@ interface PlayerStore {
   isPlaying: boolean;
   currentTime: number;
   duration: number;
+  hasError: boolean;
   play: (id?: string) => void;
   pause: () => void;
   togglePlay: () => void;
   setCurrentTime: (t: number) => void;
   setDuration: (d: number) => void;
+  setError: (e: boolean) => void;
 
   // Navigation
   next: () => void;
@@ -53,6 +55,7 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
   isPlaying: false,
   currentTime: 0,
   duration: 0,
+  hasError: false,
   volume: stored?.volume ?? 0.8,
   isMuted: stored?.isMuted ?? false,
   shuffle: stored?.shuffle ?? false,
@@ -105,6 +108,7 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
     set((s) => ({
       currentTrackId: id ?? s.currentTrackId,
       isPlaying: true,
+      hasError: false,
     }));
   },
 
@@ -113,7 +117,7 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
   togglePlay: () => {
     const { isPlaying, currentTrackId, tracks } = get();
     if (!currentTrackId && tracks.length > 0) {
-      set({ currentTrackId: tracks[0].id, isPlaying: true });
+      set({ currentTrackId: tracks[0].id, isPlaying: true, hasError: false });
     } else {
       set({ isPlaying: !isPlaying });
     }
@@ -121,13 +125,14 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
 
   setCurrentTime: (t) => set({ currentTime: t }),
   setDuration: (d) => set({ duration: d }),
+  setError: (e) => set({ hasError: e }),
 
   next: () => {
     const { tracks, currentTrackId, shuffle, repeatMode } = get();
     if (tracks.length === 0) return;
 
     if (repeatMode === 'one') {
-      set({ currentTime: 0, isPlaying: true });
+      set({ currentTime: 0, isPlaying: true, hasError: false });
       return;
     }
 
@@ -137,15 +142,15 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
       const pool = tracks.filter((t) => t.id !== currentTrackId);
       if (pool.length === 0) return;
       const rand = pool[Math.floor(Math.random() * pool.length)];
-      set({ currentTrackId: rand.id, currentTime: 0, isPlaying: true });
+      set({ currentTrackId: rand.id, currentTime: 0, isPlaying: true, hasError: false });
       return;
     }
 
     const nextIdx = idx + 1;
     if (nextIdx < tracks.length) {
-      set({ currentTrackId: tracks[nextIdx].id, currentTime: 0, isPlaying: true });
+      set({ currentTrackId: tracks[nextIdx].id, currentTime: 0, isPlaying: true, hasError: false });
     } else if (repeatMode === 'all') {
-      set({ currentTrackId: tracks[0].id, currentTime: 0, isPlaying: true });
+      set({ currentTrackId: tracks[0].id, currentTime: 0, isPlaying: true, hasError: false });
     } else {
       set({ isPlaying: false });
     }
@@ -164,7 +169,7 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
     const idx = tracks.findIndex((t) => t.id === currentTrackId);
     const prevIdx = idx - 1;
     if (prevIdx >= 0) {
-      set({ currentTrackId: tracks[prevIdx].id, currentTime: 0, isPlaying: true });
+      set({ currentTrackId: tracks[prevIdx].id, currentTime: 0, isPlaying: true, hasError: false });
     } else {
       set({ currentTime: 0 });
     }

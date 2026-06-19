@@ -77,6 +77,7 @@ export function useAudioPlayer() {
       // Ignore errors when src is empty or points to the current page (browser default behavior)
       if (!audio.src || audio.src === window.location.href) return;
       pause();
+      usePlayerStore.getState().setError(true);
       usePlayerStore.getState().showToast('Cannot play this file');
     };
 

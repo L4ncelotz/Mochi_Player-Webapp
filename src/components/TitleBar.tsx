@@ -12,7 +12,7 @@ export function TitleBar() {
   return (
     <header className={styles.titleBar}>
       <div className={styles.logo}>
-        <img className={styles.logoIcon} src="/Mochi_1.svg" alt="Mochi Logo" />
+        <img className={styles.logoIcon} src="/mochi.svg" alt="Mochi Logo" />
         <span className={styles.logoText}>Mochi Player</span>
       </div>
       <div className={styles.controls}>
@@ -39,4 +39,3 @@ export function TitleBar() {
     </header>
   );
 }
-
