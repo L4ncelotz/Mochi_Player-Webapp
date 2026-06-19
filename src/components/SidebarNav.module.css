@@ -54,7 +54,7 @@
   padding: 4px 10px;
   border-radius: 12px;
   border: 1px solid var(--border-light);
-  background: transparent;
+  background: var(--bg-card);
   color: var(--text-secondary);
   font-size: 11px;
   font-weight: 500;
@@ -63,15 +63,15 @@
 }
 
 .moodPill:hover {
-  background: rgba(var(--mood-color, #000), 0.1);
+  background: var(--bg-hover);
   border-color: rgba(var(--mood-color, #000), 0.3);
-  color: var(--mood-color);
+  color: var(--text-primary);
 }
 
 .moodPillActive {
-  background: rgba(var(--mood-color, #000), 0.15);
-  border-color: var(--mood-color);
-  color: var(--mood-color);
+  background: rgba(255, 141, 161, 0.15); /* Soft pink bg */
+  border-color: var(--pink);
+  color: var(--pink);
 }
 
 .active:hover {

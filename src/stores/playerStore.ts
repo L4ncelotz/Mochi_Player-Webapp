@@ -253,9 +253,14 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
   toggleMood: (id, mood) => {
     set((s) => {
       const currentMoods = s.trackMoods[id] || [];
-      const newMoods = currentMoods.includes(mood)
+      let newMoods = currentMoods.includes(mood)
         ? currentMoods.filter(m => m !== mood)
         : [...currentMoods, mood];
+      
+      // Enforce max 2 moods (1 Primary, 1 Secondary)
+      if (newMoods.length > 2) {
+        newMoods = newMoods.slice(newMoods.length - 2);
+      }
       
       return {
         trackMoods: {

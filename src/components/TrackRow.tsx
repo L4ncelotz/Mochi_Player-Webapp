@@ -75,7 +75,7 @@ export const TrackRow = memo(function TrackRow({ track, index, onContextMenu }: 
         <Heart size={14} fill={isFavorite ? "currentColor" : "none"} />
       </button>
 
-      {moods.slice(0, 2).map(moodId => {
+      {moods.slice(0, 1).map(moodId => {
         const def = MOODS.find(m => m.id === moodId);
         if (!def) return null;
         const Icon = def.icon;
