@@ -41,7 +41,7 @@ export function Playlist() {
       </div>
 
       <div className={styles.trackList}>
-        {filteredTracks.map((track, i) => (
+        {filteredTracks.map((track) => (
           <TrackRow key={track.id} track={track} index={tracks.indexOf(track)} />
         ))}
         {filteredTracks.length === 0 && (

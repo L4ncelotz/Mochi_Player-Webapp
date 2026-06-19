@@ -5,13 +5,12 @@ export function useMediaSession() {
   useEffect(() => {
     if (!('mediaSession' in navigator)) return;
 
-    // Set action handlers
     navigator.mediaSession.setActionHandler('play', () => {
-      usePlayerStore.getState().togglePlay(true);
+      usePlayerStore.getState().play();
     });
 
     navigator.mediaSession.setActionHandler('pause', () => {
-      usePlayerStore.getState().togglePlay(false);
+      usePlayerStore.getState().pause();
     });
 
     navigator.mediaSession.setActionHandler('previoustrack', () => {

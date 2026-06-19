@@ -11,6 +11,7 @@ interface StoredData {
     duration?: number;
   }>;
   volume: number;
+  isMuted: boolean;
   shuffle: boolean;
   repeatMode: string;
 }
