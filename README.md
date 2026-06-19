@@ -34,3 +34,5 @@ npm run dev
 ## License
 
 MIT
+
+Happy Coding!
