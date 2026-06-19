@@ -12,12 +12,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: var(--bg-card);
+  background: var(--bg-drop);
   border-radius: 32px;
   padding: var(--space-xl) var(--space-xl) 32px;
-  box-shadow: 0 12px 32px rgba(173, 86, 196, 0.08);
+  box-shadow: 0 16px 40px rgba(173, 86, 196, 0.12);
   width: 100%;
-  max-width: 320px;
+  max-width: 380px;
   gap: var(--space-xl);
 }
 

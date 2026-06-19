@@ -45,7 +45,7 @@ export default function App() {
         <TitleBar />
         <main className={styles.mainContent}>
           <aside className={styles.sidebar}>
-            {hasPlaylist ? <Playlist /> : <DropZone />}
+            {hasPlaylist ? <Playlist /> : <DropZone small />}
           </aside>
           <section className={styles.centerStage}>
             {hasPlaylist

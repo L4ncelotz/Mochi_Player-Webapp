@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Search } from 'lucide-react';
 import { usePlayerStore } from '../stores/playerStore';
 import { TrackRow } from './TrackRow';
+import { DropZone } from './DropZone';
 import styles from './Playlist.module.css';
 
 export function Playlist() {
@@ -48,6 +49,7 @@ export function Playlist() {
           <div className={styles.emptySearch}>No tracks found for "{searchQuery}"</div>
         )}
       </div>
+      <DropZone small />
     </div>
   );
 }
