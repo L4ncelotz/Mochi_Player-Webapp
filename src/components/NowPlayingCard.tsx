@@ -1,5 +1,6 @@
 import type { Track } from '../types/music';
 import { usePlayerStore } from '../stores/playerStore';
+import { Music2 } from 'lucide-react';
 import styles from './NowPlayingCard.module.css';
 
 export function NowPlayingCard({ track }: { track: Track | undefined }) {
@@ -11,7 +12,9 @@ export function NowPlayingCard({ track }: { track: Track | undefined }) {
         {track?.coverArt ? (
           <img className={styles.artImage} src={track.coverArt} alt="Album art" />
         ) : (
-          <div className={styles.artPlaceholder}>🎵</div>
+          <div className={styles.artPlaceholder}>
+            <Music2 size={80} strokeWidth={1} />
+          </div>
         )}
       </div>
       <div className={styles.info}>

@@ -4,8 +4,10 @@
   justify-content: space-between;
   padding: var(--space-md) var(--space-lg);
   flex-shrink: 0;
-  background: var(--bg-primary);
   border-bottom: 1px solid var(--border-light);
+  background: rgba(255, 248, 246, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .logo {
@@ -15,7 +17,9 @@
 }
 
 .logoIcon {
-  font-size: 20px;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
 }
 
 .logoText {

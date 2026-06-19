@@ -19,6 +19,7 @@ export function TrackRow({ track, index }: Props) {
   return (
     <div
       className={`${styles.row} ${isActive ? styles.active : ''}`}
+      style={{ '--index': index } as React.CSSProperties}
       onClick={() => play(track.id)}
       id={`track-row-${track.id}`}
     >

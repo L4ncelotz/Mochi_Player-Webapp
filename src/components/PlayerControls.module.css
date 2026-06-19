@@ -19,6 +19,18 @@
   flex: 1;
   height: 12px;
   margin-top: -10px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: linear-gradient(
+    to right,
+    var(--pink) 0%,
+    var(--pink) var(--fill, 0%),
+    var(--border-light) var(--fill, 0%),
+    var(--border-light) 100%
+  );
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: background var(--transition-fast);
 }
 
 .controlsContent {
@@ -66,6 +78,10 @@
   background: var(--bg-hover);
 }
 
+.btn:active {
+  transform: scale(0.9);
+}
+
 .btnActive {
   color: var(--pink);
 }
@@ -76,20 +92,24 @@
 }
 
 .playBtn {
-  width: 44px;
-  height: 44px;
-  background: linear-gradient(135deg, var(--pink), var(--bubblegum));
+  width: 48px;
+  height: 48px;
+  background: var(--pink);
   color: var(--text-on-accent);
-  font-size: 18px;
-  box-shadow: 0 2px 8px rgba(255, 141, 161, 0.35);
+  box-shadow: 0 4px 14px rgba(255, 141, 161, 0.4), inset 0 1px 0 rgba(255,255,255,0.25);
   transition: all var(--transition-fast);
 }
 
 .playBtn:hover {
-  background: linear-gradient(135deg, var(--bubblegum), var(--purple));
+  background: #ff7a98;
   color: var(--text-on-accent);
-  transform: scale(1.05);
-  box-shadow: 0 4px 14px rgba(255, 156, 233, 0.4);
+  transform: scale(1.06);
+  box-shadow: 0 6px 20px rgba(255, 141, 161, 0.45), inset 0 1px 0 rgba(255,255,255,0.25);
+}
+
+.playBtn:active {
+  transform: scale(0.94);
+  box-shadow: 0 2px 8px rgba(255, 141, 161, 0.3);
 }
 
 .volumeRow {

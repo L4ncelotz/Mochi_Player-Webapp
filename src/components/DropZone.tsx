@@ -1,3 +1,4 @@
+import { Headphones } from 'lucide-react';
 import { useState, useRef, useCallback, type DragEvent } from 'react';
 import { useFileImport } from '../hooks/useFileImport';
 import { getAcceptString } from '../utils/fileTypes';
@@ -46,7 +47,9 @@ export function DropZone() {
       onClick={handleBrowse}
       id="drop-zone"
     >
-      <span className={styles.icon}>🎧</span>
+      <span className={styles.icon}>
+        <Headphones size={36} strokeWidth={1.5} />
+      </span>
       <span className={styles.label}>
         Drop your music here
         <br />

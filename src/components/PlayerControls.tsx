@@ -1,3 +1,4 @@
+import { Shuffle, SkipBack, Play, Pause, SkipForward, Repeat, Repeat1 } from 'lucide-react';
 import { usePlayerStore } from '../stores/playerStore';
 import { formatTime } from '../utils/time';
 import { VolumeSlider } from './VolumeSlider';
@@ -21,12 +22,15 @@ export function PlayerControls({ onSeek }: Props) {
     cycleRepeat,
   } = usePlayerStore();
 
+  const fillPct = duration > 0 ? (currentTime / duration) * 100 : 0;
+
   return (
     <div className={styles.controls}>
-      {/* Progress Bar (Full width at top) */}
+      {/* Progress Bar */}
       <div className={styles.progressContainer}>
         <input
           className={styles.progressSlider}
+          style={{ '--fill': `${fillPct}%` } as React.CSSProperties}
           type="range"
           min={0}
           max={duration || 0}
@@ -38,7 +42,7 @@ export function PlayerControls({ onSeek }: Props) {
       </div>
 
       <div className={styles.controlsContent}>
-        {/* Left: Track Info Placeholder */}
+        {/* Left: Time */}
         <div className={styles.leftSide}>
           <span className={styles.timeDisplay}>
             {formatTime(currentTime)} / {formatTime(duration)}
@@ -53,10 +57,10 @@ export function PlayerControls({ onSeek }: Props) {
             title="Shuffle"
             id="shuffle-btn"
           >
-            🔀
+            <Shuffle size={16} />
           </button>
           <button className={styles.btn} onClick={prev} title="Previous" id="prev-btn">
-            ⏮
+            <SkipBack size={18} />
           </button>
           <button
             className={`${styles.btn} ${styles.playBtn}`}
@@ -64,10 +68,10 @@ export function PlayerControls({ onSeek }: Props) {
             title={isPlaying ? 'Pause' : 'Play'}
             id="play-btn"
           >
-            {isPlaying ? '⏸' : '▶'}
+            {isPlaying ? <Pause size={20} /> : <Play size={20} />}
           </button>
           <button className={styles.btn} onClick={next} title="Next" id="next-btn">
-            ⏭
+            <SkipForward size={18} />
           </button>
           <div className={styles.btnWrapper}>
             <button
@@ -76,9 +80,8 @@ export function PlayerControls({ onSeek }: Props) {
               title={`Repeat: ${repeatMode}`}
               id="repeat-btn"
             >
-              🔁
+              {repeatMode === 'one' ? <Repeat1 size={16} /> : <Repeat size={16} />}
             </button>
-            {repeatMode === 'one' && <span className={styles.repeatLabel}>1</span>}
           </div>
         </div>
 
