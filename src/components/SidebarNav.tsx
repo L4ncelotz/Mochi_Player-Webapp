@@ -1,7 +1,7 @@
-import { ListMusic, Heart, Clock, BarChart2 } from 'lucide-react';
+import { ListMusic, Heart, Clock, BarChart2, BookOpen } from 'lucide-react';
 import styles from './SidebarNav.module.css';
 
-export type PlaylistView = 'all' | 'favorites' | 'recent' | 'mostPlayed';
+export type PlaylistView = 'all' | 'favorites' | 'recent' | 'mostPlayed' | 'diary';
 
 interface Props {
   currentView: PlaylistView;
@@ -39,6 +39,15 @@ export function SidebarNav({ currentView, onChangeView }: Props) {
       >
         <BarChart2 size={16} />
         <span>Most Played</span>
+      </button>
+
+      <div className={styles.section} style={{ marginTop: '12px' }}>Mochi</div>
+      <button 
+        className={`${styles.navItem} ${currentView === 'diary' ? styles.active : ''}`}
+        onClick={() => onChangeView('diary')}
+      >
+        <BookOpen size={16} />
+        <span>Mochi Diary</span>
       </button>
     </div>
   );

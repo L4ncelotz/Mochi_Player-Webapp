@@ -17,6 +17,7 @@ interface StoredData {
   favorites?: string[];
   playHistory?: string[];
   playCounts?: Record<string, number>;
+  dailySeconds?: Record<string, number>;
 }
 
 export function loadState(): StoredData | null {

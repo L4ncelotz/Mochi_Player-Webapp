@@ -37,8 +37,10 @@ interface PlayerStore {
   favorites: string[];
   playHistory: string[];
   playCounts: Record<string, number>;
+  dailySeconds: Record<string, number>;
   toggleFavorite: (id: string) => void;
   recordPlay: (id: string) => void;
+  addListenTime: (seconds: number) => void;
 
   // Volume
   volume: number;
@@ -79,6 +81,7 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
   favorites: stored?.favorites ?? [],
   playHistory: stored?.playHistory ?? [],
   playCounts: stored?.playCounts ?? {},
+  dailySeconds: stored?.dailySeconds ?? {},
 
   addTracks: (newTracks) => {
     set((s) => {
@@ -246,6 +249,25 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
     get().persist();
   },
 
+  addListenTime: (seconds) => {
+    set((s) => {
+      const today = new Date().toISOString().split('T')[0];
+      const current = s.dailySeconds[today] || 0;
+      return {
+        dailySeconds: {
+          ...s.dailySeconds,
+          [today]: current + seconds,
+        },
+      };
+    });
+    // We only persist every 10 seconds or so to avoid spamming localStorage,
+    // but doing it here might be too frequent if called every second.
+    // Instead, the caller will be responsible for calling persist() periodically, or we persist here anyway.
+    // Let's persist here but rely on the caller to not call this every single second if possible.
+    // Actually, calling localStorage.setItem every 5 seconds is perfectly fine.
+    get().persist();
+  },
+
   setVolume: (v) => {
     set({ volume: v, isMuted: false });
     get().persist();
@@ -278,7 +300,7 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
   clearToast: () => set({ toast: null }),
 
   persist: () => {
-    const { tracks, volume, isMuted, shuffle, repeatMode, favorites, playHistory, playCounts } = get();
+    const { tracks, volume, isMuted, shuffle, repeatMode, favorites, playHistory, playCounts, dailySeconds } = get();
     saveState({
       playlist: tracks.map((t) => ({
         id: t.id,
@@ -296,6 +318,7 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
       favorites,
       playHistory,
       playCounts,
+      dailySeconds,
     });
   },
 }));

@@ -57,6 +57,30 @@ export function useAudioPlayer() {
     }
   }, [isPlaying, currentTrackId, pause]);
 
+  // Track Listen Time
+  useEffect(() => {
+    if (!isPlaying) return;
+
+    let lastTick = Date.now();
+    const interval = setInterval(() => {
+      const now = Date.now();
+      const diff = Math.round((now - lastTick) / 1000);
+      if (diff > 0) {
+        usePlayerStore.getState().addListenTime(diff);
+        lastTick = now;
+      }
+    }, 5000); // commit every 5s
+
+    return () => {
+      clearInterval(interval);
+      const now = Date.now();
+      const diff = Math.round((now - lastTick) / 1000);
+      if (diff > 0) {
+        usePlayerStore.getState().addListenTime(diff);
+      }
+    };
+  }, [isPlaying]);
+
   // Volume & Mute
   useEffect(() => {
     if (audioRef.current) {
