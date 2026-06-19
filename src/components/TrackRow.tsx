@@ -24,7 +24,11 @@ export function TrackRow({ track, index }: Props) {
     >
       <span className={styles.number}>
         {isActive && isPlaying ? (
-          <span className={styles.playingIcon}>♪</span>
+          <div className={styles.visualizer}>
+            <div className={styles.bar}></div>
+            <div className={styles.bar}></div>
+            <div className={styles.bar}></div>
+          </div>
         ) : (
           index + 1
         )}
