@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "jsmediatags": "^3.9.7",
+    "lucide-react": "^1.21.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "zustand": "^5.0.14"

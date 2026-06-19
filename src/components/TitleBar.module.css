@@ -26,7 +26,35 @@
 }
 
 .trackCount {
-  font-size: 12px;
-  color: var(--text-tertiary);
-  font-weight: 400;
+  font-size: 13px;
+  color: var(--text-secondary);
+  font-weight: 500;
+  background: var(--bg-secondary);
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.pipBtn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  border-radius: 50%;
+  transition: all var(--transition-fast);
+}
+
+.pipBtn:hover {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  transform: scale(1.05);
 }
