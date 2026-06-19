@@ -9,6 +9,7 @@ import { ToastHost } from './components/ToastHost';
 import { useAudioPlayer } from './hooks/useAudioPlayer';
 import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts';
 import { useFileImport } from './hooks/useFileImport';
+import { useMediaSession } from './hooks/useMediaSession';
 import { usePlayerStore } from './stores/playerStore';
 
 export default function App() {
@@ -17,6 +18,7 @@ export default function App() {
   const { importFiles } = useFileImport();
 
   useKeyboardShortcuts();
+  useMediaSession();
 
   // Global drop handler (entire app window)
   const handleDragOver = useCallback((e: DragEvent) => {
