@@ -12,13 +12,11 @@ export function PlayerControls({ onSeek }: Props) {
     isPlaying,
     currentTime,
     duration,
-    volume,
     shuffle,
     repeatMode,
     togglePlay,
     prev,
     next,
-    setVolume,
     toggleShuffle,
     cycleRepeat,
   } = usePlayerStore();
