@@ -1,4 +1,4 @@
-import { Play, Pause, SkipBack, SkipForward } from 'lucide-react';
+import { Play, Pause, SkipBack, SkipForward, Music } from 'lucide-react';
 import { usePlayerStore } from '../stores/playerStore';
 import styles from './MiniPlayer.module.css';
 
@@ -31,7 +31,9 @@ export function MiniPlayer() {
           {currentTrack?.coverArt ? (
             <img src={currentTrack.coverArt} alt="Cover" className={styles.art} />
           ) : (
-            <span>🎵</span>
+            <div className={styles.fallbackArt}>
+              <Music size={20} className={styles.fallbackIcon} />
+            </div>
           )}
         </div>
 

@@ -11,8 +11,7 @@
   background: var(--bg-drop);
   transition: all var(--transition-normal);
   cursor: pointer;
-  flex: 1;
-  min-height: 120px;
+  min-height: auto;
 }
 
 .dropZone:hover,
@@ -58,4 +57,32 @@
 .formats {
   font-size: 11px;
   color: var(--text-tertiary);
+}
+
+.small {
+  padding: var(--space-md) var(--space-sm);
+  margin: var(--space-md);
+  gap: var(--space-sm);
+}
+
+.small .icon {
+  font-size: 24px;
+}
+
+.small .icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.small .label,
+.small .formats,
+.small .browseBtn {
+  display: none;
+}
+
+.small::after {
+  content: "Drop to add tracks";
+  font-size: 13px;
+  color: var(--text-secondary);
+  font-weight: 500;
 }

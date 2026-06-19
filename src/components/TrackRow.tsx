@@ -1,5 +1,7 @@
-import type { Track } from '../types/music';
+import { Play, Pause, X } from 'lucide-react';
+import { memo } from 'react';
 import { usePlayerStore } from '../stores/playerStore';
+import type { Track } from '../types/music';
 import { formatTime } from '../utils/time';
 import styles from './TrackRow.module.css';
 
@@ -8,52 +10,60 @@ interface Props {
   index: number;
 }
 
-export function TrackRow({ track, index }: Props) {
-  const currentTrackId = usePlayerStore((s) => s.currentTrackId);
-  const isPlaying = usePlayerStore((s) => s.isPlaying);
-  const play = usePlayerStore((s) => s.play);
-  const removeTrack = usePlayerStore((s) => s.removeTrack);
+export const TrackRow = memo(function TrackRow({ track, index }: Props) {
+  const { currentTrackId, isPlaying, play, pause, removeTrack } = usePlayerStore();
+  const isCurrent = currentTrackId === track.id;
 
-  const isActive = currentTrackId === track.id;
+  const handlePlayPause = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (isCurrent && isPlaying) {
+      pause();
+    } else {
+      play(track.id);
+    }
+  };
+
+  const handleRemove = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    removeTrack(track.id);
+  };
 
   return (
     <div
-      className={`${styles.row} ${isActive ? styles.active : ''}`}
+      className={`${styles.row} ${isCurrent ? styles.active : ''}`}
       onClick={() => play(track.id)}
+      style={{ '--index': index } as React.CSSProperties}
       id={`track-row-${track.id}`}
     >
-      <span className={styles.number}>
-        {isActive && isPlaying ? (
-          <div className={styles.visualizer}>
-            <div className={styles.bar}></div>
-            <div className={styles.bar}></div>
-            <div className={styles.bar}></div>
-          </div>
+      <div className={styles.playState} onClick={handlePlayPause}>
+        {isCurrent && isPlaying ? (
+          <Pause size={16} className={styles.iconActive} />
         ) : (
-          index + 1
+          <Play size={16} className={isCurrent ? styles.iconActive : styles.iconIdle} />
         )}
-      </span>
+      </div>
+
       <div className={styles.info}>
-        <div className={`${styles.trackTitle} ${isActive ? styles.activeTitle : ''}`}>
+        <div className={`${styles.trackTitle} ${isCurrent ? styles.activeTitle : ''}`}>
           {track.title}
         </div>
         {track.artist && <div className={styles.trackArtist}>{track.artist}</div>}
       </div>
+      
       <span className={styles.badge}>{track.extension}</span>
+      
       {track.duration != null && (
         <span className={styles.duration}>{formatTime(track.duration)}</span>
       )}
+      
       <button
         className={styles.removeBtn}
-        onClick={(e) => {
-          e.stopPropagation();
-          removeTrack(track.id);
-        }}
+        onClick={handleRemove}
         title="Remove"
         id={`remove-track-${track.id}`}
       >
-        ✕
+        <X size={14} />
       </button>
     </div>
   );
-}
+});

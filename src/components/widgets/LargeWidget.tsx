@@ -1,3 +1,4 @@
+import { Music } from 'lucide-react';
 import type { WidgetState } from './WidgetApp';
 import styles from './Widget.module.css';
 
@@ -26,7 +27,9 @@ export function LargeWidget({ state }: Props) {
             alt="Album art"
           />
         ) : (
-          <div className={styles.largePlaceholder}>🎵</div>
+          <div className={styles.largePlaceholder}>
+            <Music size={48} />
+          </div>
         )}
       </div>
 

@@ -4,6 +4,7 @@ import { TitleBar } from './components/TitleBar';
 import { NowPlayingCard } from './components/NowPlayingCard';
 import { PlayerControls } from './components/PlayerControls';
 import { DropZone } from './components/DropZone';
+import { CenterStageEmpty } from './components/CenterStageEmpty';
 import { Playlist } from './components/Playlist';
 import { ToastHost } from './components/ToastHost';
 import { useAudioPlayer } from './hooks/useAudioPlayer';
@@ -44,10 +45,12 @@ export default function App() {
         <TitleBar />
         <main className={styles.mainContent}>
           <aside className={styles.sidebar}>
-            {hasPlaylist ? <Playlist /> : <DropZone />}
+            {hasPlaylist ? <Playlist /> : <DropZone small />}
           </aside>
           <section className={styles.centerStage}>
-            {hasPlaylist && <NowPlayingCard track={currentTrack} />}
+            {hasPlaylist
+              ? <NowPlayingCard track={currentTrack} />
+              : <CenterStageEmpty />}
           </section>
         </main>
         {hasPlaylist && <PlayerControls onSeek={seek} />}

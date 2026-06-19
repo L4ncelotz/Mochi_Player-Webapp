@@ -12,7 +12,7 @@ export function TitleBar() {
   return (
     <header className={styles.titleBar}>
       <div className={styles.logo}>
-        <span className={styles.logoIcon}>🍡</span>
+        <img className={styles.logoIcon} src="/mochi.svg" alt="Mochi Logo" />
         <span className={styles.logoText}>Mochi Player</span>
       </div>
       <div className={styles.controls}>
