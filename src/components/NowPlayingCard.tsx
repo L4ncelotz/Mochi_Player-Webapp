@@ -7,7 +7,7 @@ export function NowPlayingCard({ track }: { track: Track | undefined }) {
 
   return (
     <div className={styles.card}>
-      <div className={styles.artWrapper}>
+      <div className={`${styles.artWrapper} ${isPlaying ? styles.artPlaying : ''}`}>
         {track?.coverArt ? (
           <img className={styles.artImage} src={track.coverArt} alt="Album art" />
         ) : (

@@ -11,4 +11,9 @@
   overflow: hidden;
   position: relative;
   border: 1px solid var(--border-light);
+  transition: box-shadow var(--transition-normal);
+}
+
+.shell:hover {
+  box-shadow: 0 8px 32px rgba(173, 86, 196, 0.15), 0 0 0 1px rgba(255, 141, 161, 0.1);
 }
