@@ -14,6 +14,9 @@ interface StoredData {
   isMuted: boolean;
   shuffle: boolean;
   repeatMode: string;
+  favorites?: string[];
+  playHistory?: string[];
+  playCounts?: Record<string, number>;
 }
 
 export function loadState(): StoredData | null {

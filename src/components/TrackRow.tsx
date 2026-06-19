@@ -1,4 +1,4 @@
-import { Play, Pause, X } from 'lucide-react';
+import { Play, Pause, X, Heart } from 'lucide-react';
 import { memo } from 'react';
 import { usePlayerStore } from '../stores/playerStore';
 import type { Track } from '../types/music';
@@ -12,8 +12,9 @@ interface Props {
 }
 
 export const TrackRow = memo(function TrackRow({ track, index, onContextMenu }: Props) {
-  const { currentTrackId, isPlaying, play, pause, removeTrack } = usePlayerStore();
+  const { currentTrackId, isPlaying, play, pause, removeTrack, favorites, toggleFavorite } = usePlayerStore();
   const isCurrent = currentTrackId === track.id;
+  const isFavorite = favorites.includes(track.id);
 
   const handlePlayPause = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -27,6 +28,11 @@ export const TrackRow = memo(function TrackRow({ track, index, onContextMenu }: 
   const handleRemove = (e: React.MouseEvent) => {
     e.stopPropagation();
     removeTrack(track.id);
+  };
+
+  const handleToggleFavorite = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    toggleFavorite(track.id);
   };
 
   const handleContextMenu = (e: React.MouseEvent) => {
@@ -59,6 +65,14 @@ export const TrackRow = memo(function TrackRow({ track, index, onContextMenu }: 
         {track.artist && <div className={styles.trackArtist}>{track.artist}</div>}
       </div>
       
+      <button 
+        className={`${styles.favoriteBtn} ${isFavorite ? styles.isFavorite : ''}`}
+        onClick={handleToggleFavorite}
+        title={isFavorite ? "Unfavorite" : "Favorite"}
+      >
+        <Heart size={14} fill={isFavorite ? "currentColor" : "none"} />
+      </button>
+
       <span className={styles.badge}>{track.extension}</span>
       
       {track.duration != null && (

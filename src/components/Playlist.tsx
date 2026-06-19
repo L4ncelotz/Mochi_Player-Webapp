@@ -5,17 +5,39 @@ import { TrackRow } from './TrackRow';
 import { DropZone } from './DropZone';
 import { QueuePanel } from './QueuePanel';
 import { TrackContextMenu } from './TrackContextMenu';
+import { SidebarNav, type PlaylistView } from './SidebarNav';
 import styles from './Playlist.module.css';
 
 export function Playlist() {
-  const tracks = usePlayerStore((s) => s.tracks);
-  const clearPlaylist = usePlayerStore((s) => s.clearPlaylist);
+  const { tracks, clearPlaylist, favorites, playHistory, playCounts } = usePlayerStore();
   const [searchQuery, setSearchQuery] = useState('');
+  const [currentView, setCurrentView] = useState<PlaylistView>('all');
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number; trackId: string } | null>(null);
 
   if (tracks.length === 0) return null;
 
-  const filteredTracks = tracks.filter((track) => {
+  // 1. Filter by View
+  let viewTracks = tracks;
+  let viewTitle = 'All Tracks';
+  
+  if (currentView === 'favorites') {
+    viewTracks = tracks.filter((t) => favorites.includes(t.id));
+    viewTitle = 'Favorites';
+  } else if (currentView === 'recent') {
+    viewTracks = playHistory
+      .map((id) => tracks.find((t) => t.id === id))
+      .filter((t): t is NonNullable<typeof t> => !!t);
+    viewTitle = 'Recently Played';
+  } else if (currentView === 'mostPlayed') {
+    viewTracks = [...tracks]
+      .filter((t) => (playCounts[t.id] || 0) > 0)
+      .sort((a, b) => (playCounts[b.id] || 0) - (playCounts[a.id] || 0))
+      .slice(0, 50);
+    viewTitle = 'Most Played';
+  }
+
+  // 2. Filter by Search
+  const filteredTracks = viewTracks.filter((track) => {
     const q = searchQuery.toLowerCase();
     return (
       (track.title && track.title.toLowerCase().includes(q)) ||
@@ -26,11 +48,15 @@ export function Playlist() {
 
   return (
     <div className={styles.playlist} id="playlist">
+      <SidebarNav currentView={currentView} onChangeView={setCurrentView} />
+
       <div className={styles.header}>
-        <span className={styles.headerTitle}>Playlist</span>
-        <button className={styles.clearBtn} onClick={clearPlaylist}>
-          Clear
-        </button>
+        <span className={styles.headerTitle}>{viewTitle}</span>
+        {currentView === 'all' && (
+          <button className={styles.clearBtn} onClick={clearPlaylist}>
+            Clear
+          </button>
+        )}
       </div>
       
       <div className={styles.searchContainer}>

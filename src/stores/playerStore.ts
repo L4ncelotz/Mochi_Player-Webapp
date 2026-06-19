@@ -33,6 +33,13 @@ interface PlayerStore {
   removeFromQueue: (index: number) => void;
   clearQueue: () => void;
 
+  // Stats
+  favorites: string[];
+  playHistory: string[];
+  playCounts: Record<string, number>;
+  toggleFavorite: (id: string) => void;
+  recordPlay: (id: string) => void;
+
   // Volume
   volume: number;
   setVolume: (v: number) => void;
@@ -69,6 +76,9 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
   shuffle: stored?.shuffle ?? false,
   repeatMode: (stored?.repeatMode as RepeatMode) ?? 'off',
   toast: null,
+  favorites: stored?.favorites ?? [],
+  playHistory: stored?.playHistory ?? [],
+  playCounts: stored?.playCounts ?? {},
 
   addTracks: (newTracks) => {
     set((s) => {
@@ -113,11 +123,15 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
   },
 
   play: (id) => {
-    set((s) => ({
-      currentTrackId: id ?? s.currentTrackId,
+    const targetId = id ?? get().currentTrackId;
+    if (targetId) {
+      get().recordPlay(targetId);
+    }
+    set({
+      currentTrackId: targetId,
       isPlaying: true,
       hasError: false,
-    }));
+    });
   },
 
   pause: () => set({ isPlaying: false }),
@@ -213,6 +227,24 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
 
   clearQueue: () => set({ queue: [] }),
 
+  toggleFavorite: (id) => {
+    set((s) => {
+      const favorites = s.favorites.includes(id)
+        ? s.favorites.filter((f) => f !== id)
+        : [...s.favorites, id];
+      return { favorites };
+    });
+    get().persist();
+  },
+
+  recordPlay: (id) => {
+    set((s) => {
+      const playHistory = [id, ...s.playHistory.filter((h) => h !== id)].slice(0, 50);
+      const playCounts = { ...s.playCounts, [id]: (s.playCounts[id] || 0) + 1 };
+      return { playHistory, playCounts };
+    });
+    get().persist();
+  },
 
   setVolume: (v) => {
     set({ volume: v, isMuted: false });
@@ -246,7 +278,7 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
   clearToast: () => set({ toast: null }),
 
   persist: () => {
-    const { tracks, volume, isMuted, shuffle, repeatMode } = get();
+    const { tracks, volume, isMuted, shuffle, repeatMode, favorites, playHistory, playCounts } = get();
     saveState({
       playlist: tracks.map((t) => ({
         id: t.id,
@@ -261,6 +293,9 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
       isMuted,
       shuffle,
       repeatMode,
+      favorites,
+      playHistory,
+      playCounts,
     });
   },
 }));

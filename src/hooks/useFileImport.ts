@@ -45,7 +45,7 @@ export function useFileImport() {
         const cleanName = file.name.replace(/\.[^/.]+$/, '');
 
         newTracks.push({
-          id: crypto.randomUUID(),
+          id: file.name,
           source: 'local',
           fileName: file.name,
           objectUrl,
