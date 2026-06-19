@@ -25,37 +25,42 @@ export function NowPlayingCard({ track }: { track: Track | undefined }) {
 
   return (
     <div className={styles.card}>
-      <div className={`${styles.artWrapper} ${isPlaying ? styles.artPlaying : ''}`}>
-        {track?.coverArt ? (
-          <img className={styles.artImage} src={track.coverArt} alt="Album art" />
-        ) : (
-          <div className={styles.artPlaceholder}>
-            <SleepyMascot />
-          </div>
-        )}
-      </div>
-      <div className={styles.info}>
-        {track ? (
-          <>
-            <div className={styles.title}>{track.title}</div>
-            <div className={styles.artist}>{track.artist || 'Unknown artist'}</div>
-            {isPlaying && (
-              <div className={styles.visualizer}>
-                <div className={styles.bar} />
-                <div className={styles.bar} />
-                <div className={styles.bar} />
-                <div className={styles.bar} />
-                <div className={styles.bar} />
-                <div className={styles.bar} />
-              </div>
-            )}
-          </>
-        ) : (
-          <div className={styles.noTrack}>
-            <div className={styles.noTrackHeading}>Pick a song to wake Mochi</div>
-            <div className={styles.noTrackSub}>Choose a track from your playlist to start listening.</div>
-          </div>
-        )}
+      <div className={styles.cardWrapper}>
+        <div className={`${styles.artWrapper} ${isPlaying ? styles.artPlaying : ''}`}>
+          {track?.coverArt ? (
+            <img className={styles.artImage} src={track.coverArt} alt="Album art" />
+          ) : (
+            <div className={styles.artPlaceholder}>
+              <SleepyMascot />
+            </div>
+          )}
+        </div>
+        <div className={styles.info}>
+          {track ? (
+            <div className={styles.textGroup}>
+              {isPlaying ? (
+                <div className={styles.statusLabel}>
+                  <div className={styles.visualizer}>
+                    <div className={styles.bar} />
+                    <div className={styles.bar} />
+                    <div className={styles.bar} />
+                    <div className={styles.bar} />
+                  </div>
+                  Now playing
+                </div>
+              ) : (
+                <div className={styles.statusLabel}>Paused</div>
+              )}
+              <div className={styles.title}>{track.title}</div>
+              <div className={styles.artist}>{track.artist || 'Unknown artist'}</div>
+            </div>
+          ) : (
+            <div className={styles.noTrack}>
+              <div className={styles.noTrackHeading}>Pick a song to wake Mochi</div>
+              <div className={styles.noTrackSub}>Choose a track from your playlist to start listening.</div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

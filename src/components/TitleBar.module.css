@@ -17,9 +17,10 @@
 }
 
 .logoIcon {
-  width: 20px;
-  height: 20px;
+  width: 28px;
+  height: 28px;
   flex-shrink: 0;
+  object-fit: contain;
 }
 
 .logoText {
