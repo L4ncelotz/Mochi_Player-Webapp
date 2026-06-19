@@ -27,6 +27,8 @@ interface PlayerStore {
   // Volume
   volume: number;
   setVolume: (v: number) => void;
+  isMuted: boolean;
+  toggleMute: () => void;
 
   // Modes
   shuffle: boolean;
@@ -52,6 +54,7 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
   currentTime: 0,
   duration: 0,
   volume: stored?.volume ?? 0.8,
+  isMuted: stored?.isMuted ?? false,
   shuffle: stored?.shuffle ?? false,
   repeatMode: (stored?.repeatMode as RepeatMode) ?? 'off',
   toast: null,
@@ -168,7 +171,12 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
   },
 
   setVolume: (v) => {
-    set({ volume: v });
+    set({ volume: v, isMuted: false });
+    get().persist();
+  },
+
+  toggleMute: () => {
+    set((s) => ({ isMuted: !s.isMuted }));
     get().persist();
   },
 
@@ -194,7 +202,7 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
   clearToast: () => set({ toast: null }),
 
   persist: () => {
-    const { tracks, volume, shuffle, repeatMode } = get();
+    const { tracks, volume, isMuted, shuffle, repeatMode } = get();
     saveState({
       playlist: tracks.map((t) => ({
         id: t.id,
@@ -206,6 +214,7 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
         duration: t.duration,
       })),
       volume,
+      isMuted,
       shuffle,
       repeatMode,
     });
