@@ -208,6 +208,50 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
       volume,
       shuffle,
       repeatMode,
-    });
   },
 }));
+
+// Cross-tab synchronization for the Stream Widget
+const bc = new BroadcastChannel('mochi_player');
+
+usePlayerStore.subscribe((state, prevState) => {
+  if (
+    state.isPlaying !== prevState.isPlaying ||
+    state.currentTrackId !== prevState.currentTrackId ||
+    state.tracks !== prevState.tracks
+  ) {
+    const currentTrack = state.tracks.find((t) => t.id === state.currentTrackId);
+    
+    // We send a minimal payload to avoid cloning issues with large objects
+    bc.postMessage({
+      type: 'STATE_UPDATE',
+      payload: {
+        isPlaying: state.isPlaying,
+        track: currentTrack ? {
+          title: currentTrack.title,
+          artist: currentTrack.artist,
+          coverArt: currentTrack.coverArt,
+        } : undefined,
+      }
+    });
+  }
+});
+
+// Listen for widgets requesting initial state
+bc.onmessage = (event) => {
+  if (event.data?.type === 'REQUEST_STATE') {
+    const state = usePlayerStore.getState();
+    const currentTrack = state.tracks.find((t) => t.id === state.currentTrackId);
+    bc.postMessage({
+      type: 'STATE_UPDATE',
+      payload: {
+        isPlaying: state.isPlaying,
+        track: currentTrack ? {
+          title: currentTrack.title,
+          artist: currentTrack.artist,
+          coverArt: currentTrack.coverArt,
+        } : undefined,
+      }
+    });
+  }
+};
