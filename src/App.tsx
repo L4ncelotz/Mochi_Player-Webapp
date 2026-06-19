@@ -8,7 +8,7 @@ import { CenterStageEmpty } from './components/CenterStageEmpty';
 import { Playlist } from './components/Playlist';
 import { ToastHost } from './components/ToastHost';
 import { MochiDiaryDrawer } from './components/MochiDiaryDrawer';
-import { useAudioPlayer } from './hooks/useAudioPlayer';
+import { GlobalPlayer } from './components/GlobalPlayer';
 import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts';
 import { useFileImport } from './hooks/useFileImport';
 import { useMediaSession } from './hooks/useMediaSession';
@@ -17,7 +17,9 @@ import styles from './App.module.css';
 
 export default function App() {
   const tracks = usePlayerStore((s) => s.tracks);
-  const { seek, currentTrack } = useAudioPlayer();
+  const currentTrackId = usePlayerStore((s) => s.currentTrackId);
+  const setSeekRequest = usePlayerStore((s) => s.setSeekRequest);
+  const currentTrack = tracks.find(t => t.id === currentTrackId);
   const { importFiles } = useFileImport();
 
   useKeyboardShortcuts();
@@ -55,8 +57,9 @@ export default function App() {
             <MochiDiaryDrawer />
           </section>
         </main>
-        {hasPlaylist && <PlayerControls onSeek={seek} />}
+        {hasPlaylist && <PlayerControls onSeek={setSeekRequest} />}
         <ToastHost />
+        <GlobalPlayer />
       </AppShell>
     </div>
   );

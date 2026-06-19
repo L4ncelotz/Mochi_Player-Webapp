@@ -63,5 +63,31 @@ export function useFileImport() {
     [addTracks, showToast],
   );
 
-  return { importFiles };
+  const importYouTubeUrl = useCallback(
+    async (url: string) => {
+      const { fetchYouTubeMetadata } = await import('../utils/youtube');
+      const meta = await fetchYouTubeMetadata(url);
+      if (!meta) {
+        showToast('Failed to fetch YouTube info 😿');
+        return;
+      }
+      
+      const newTrack: Track = {
+        id: `yt-${Date.now()}`,
+        source: 'youtube',
+        objectUrl: url,
+        title: meta.title,
+        artist: meta.artist,
+        coverArt: meta.thumbnailUrl,
+        extension: 'YT',
+        addedAt: new Date().toISOString()
+      };
+      
+      addTracks([newTrack]);
+      showToast('Added YouTube track! 🎉');
+    },
+    [addTracks, showToast]
+  );
+
+  return { importFiles, importYouTubeUrl };
 }

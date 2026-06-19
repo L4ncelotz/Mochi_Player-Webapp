@@ -1,26 +1,17 @@
-export type TrackSource = 'local';
+export type TrackSource = 'local' | 'youtube';
 
 export interface Track {
   id: string;
-  source: TrackSource;
-  fileName: string;
-  objectUrl?: string;
+  source?: TrackSource;
+  fileName?: string; // Optional for YT
+  objectUrl: string; // URL for playback
   title: string;
   artist?: string;
-  coverArt?: string; // data URL from ID3 tag
-  duration?: number;
-  extension: 'mp3' | 'mp4' | 'm4a' | 'wav';
-  addedAt: string;
+  coverArt?: string; // URL to blob or remote image
+  duration?: number; // in seconds
+  extension: string; // File extension or 'YT'
+  addedAt?: string;
+  file?: File | null; // null for online sources
 }
 
 export type RepeatMode = 'off' | 'one' | 'all';
-
-export interface PlayerState {
-  currentTrackId?: string;
-  isPlaying: boolean;
-  currentTime: number;
-  duration: number;
-  volume: number;
-  shuffle: boolean;
-  repeatMode: RepeatMode;
-}

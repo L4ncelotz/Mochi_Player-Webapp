@@ -46,9 +46,9 @@ export function Playlist() {
   const filteredTracks = viewTracks.filter((track) => {
     const q = searchQuery.toLowerCase();
     return (
-      (track.title && track.title.toLowerCase().includes(q)) ||
+      track.title.toLowerCase().includes(q) ||
       (track.artist && track.artist.toLowerCase().includes(q)) ||
-      track.fileName.toLowerCase().includes(q)
+      (track.fileName && track.fileName.toLowerCase().includes(q))
     );
   });
 

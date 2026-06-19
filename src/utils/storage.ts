@@ -1,15 +1,17 @@
 const STORAGE_KEY = 'mochi-player';
 
+export interface StoredTrack {
+  id: string;
+  fileName?: string;
+  title: string;
+  artist?: string;
+  extension: string;
+  addedAt?: string;
+  duration?: number;
+}
+
 interface StoredData {
-  playlist: Array<{
-    id: string;
-    fileName: string;
-    title: string;
-    artist?: string;
-    extension: string;
-    addedAt: string;
-    duration?: number;
-  }>;
+  playlist: StoredTrack[];
   volume: number;
   isMuted: boolean;
   shuffle: boolean;

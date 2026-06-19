@@ -59,6 +59,73 @@
   color: var(--text-tertiary);
 }
 
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: var(--text-tertiary);
+  font-size: 10px;
+  font-weight: 600;
+  margin: var(--space-md) 0;
+  width: 80%;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.divider::before {
+  margin-right: 8px;
+}
+
+.divider::after {
+  margin-left: 8px;
+}
+
+.ytForm {
+  display: flex;
+  gap: 8px;
+  width: 90%;
+  max-width: 300px;
+}
+
+.ytInput {
+  flex: 1;
+  border: 1px solid var(--border-light);
+  background: var(--bg-card);
+  border-radius: var(--radius-full);
+  padding: 8px 12px;
+  font-size: 12px;
+  color: var(--text-primary);
+  outline: none;
+  transition: all var(--transition-fast);
+}
+
+.ytInput:focus {
+  border-color: var(--pink);
+  box-shadow: 0 0 0 2px rgba(255, 141, 161, 0.2);
+}
+
+.ytSubmit {
+  background: var(--pink);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.ytSubmit:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255, 141, 161, 0.3);
+}
+
 .small {
   padding: var(--space-md) var(--space-sm);
   margin: var(--space-md);

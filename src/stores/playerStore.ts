@@ -37,12 +37,16 @@ interface PlayerStore {
   favorites: string[];
   playHistory: string[];
   playCounts: Record<string, number>;
-  dailySeconds: Record<string, number>;
-  trackMoods: Record<string, string[]>;
+  dailySeconds: Record<string, number>; // YYYY-MM-DD -> seconds
+  trackMoods: Record<string, string[]>; // Track ID -> array of mood IDs
+  seekRequest: number | null;
   toggleFavorite: (id: string) => void;
   recordPlay: (id: string) => void;
   addListenTime: (seconds: number) => void;
   toggleMood: (id: string, mood: string) => void;
+
+  setSeekRequest: (time: number) => void;
+  clearSeekRequest: () => void;
 
   // UI State
   isDiaryOpen: boolean;
@@ -89,6 +93,7 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
   playCounts: stored?.playCounts ?? {},
   dailySeconds: stored?.dailySeconds ?? {},
   trackMoods: stored?.trackMoods ?? {},
+  seekRequest: null,
 
   isDiaryOpen: false,
   toggleDiary: () => set((s) => ({ isDiaryOpen: !s.isDiaryOpen })),
@@ -271,6 +276,9 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
     });
     get().persist();
   },
+
+  setSeekRequest: (time: number) => set({ seekRequest: time }),
+  clearSeekRequest: () => set({ seekRequest: null }),
 
   recordPlay: (id) => {
     set((s) => {
