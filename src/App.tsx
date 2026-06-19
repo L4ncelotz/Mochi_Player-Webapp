@@ -7,6 +7,7 @@ import { DropZone } from './components/DropZone';
 import { CenterStageEmpty } from './components/CenterStageEmpty';
 import { Playlist } from './components/Playlist';
 import { ToastHost } from './components/ToastHost';
+import { MochiDiaryDrawer } from './components/MochiDiaryDrawer';
 import { useAudioPlayer } from './hooks/useAudioPlayer';
 import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts';
 import { useFileImport } from './hooks/useFileImport';
@@ -51,6 +52,7 @@ export default function App() {
             {hasPlaylist
               ? <NowPlayingCard track={currentTrack} />
               : <CenterStageEmpty />}
+            <MochiDiaryDrawer />
           </section>
         </main>
         {hasPlaylist && <PlayerControls onSeek={seek} />}

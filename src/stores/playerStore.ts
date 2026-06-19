@@ -42,6 +42,10 @@ interface PlayerStore {
   recordPlay: (id: string) => void;
   addListenTime: (seconds: number) => void;
 
+  // UI State
+  isDiaryOpen: boolean;
+  toggleDiary: () => void;
+
   // Volume
   volume: number;
   setVolume: (v: number) => void;
@@ -82,6 +86,9 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
   playHistory: stored?.playHistory ?? [],
   playCounts: stored?.playCounts ?? {},
   dailySeconds: stored?.dailySeconds ?? {},
+
+  isDiaryOpen: false,
+  toggleDiary: () => set((s) => ({ isDiaryOpen: !s.isDiaryOpen })),
 
   addTracks: (newTracks) => {
     set((s) => {

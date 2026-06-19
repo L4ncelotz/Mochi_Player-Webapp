@@ -1,7 +1,8 @@
 import { ListMusic, Heart, Clock, BarChart2, BookOpen } from 'lucide-react';
+import { usePlayerStore } from '../stores/playerStore';
 import styles from './SidebarNav.module.css';
 
-export type PlaylistView = 'all' | 'favorites' | 'recent' | 'mostPlayed' | 'diary';
+export type PlaylistView = 'all' | 'favorites' | 'recent' | 'mostPlayed';
 
 interface Props {
   currentView: PlaylistView;
@@ -9,6 +10,8 @@ interface Props {
 }
 
 export function SidebarNav({ currentView, onChangeView }: Props) {
+  const { isDiaryOpen, toggleDiary } = usePlayerStore();
+
   return (
     <div className={styles.nav}>
       <div className={styles.section}>Library</div>
@@ -43,8 +46,8 @@ export function SidebarNav({ currentView, onChangeView }: Props) {
 
       <div className={styles.section} style={{ marginTop: '12px' }}>Mochi</div>
       <button 
-        className={`${styles.navItem} ${currentView === 'diary' ? styles.active : ''}`}
-        onClick={() => onChangeView('diary')}
+        className={`${styles.navItem} ${isDiaryOpen ? styles.active : ''}`}
+        onClick={toggleDiary}
       >
         <BookOpen size={16} />
         <span>Mochi Diary</span>
