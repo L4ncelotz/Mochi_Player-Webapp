@@ -20,3 +20,18 @@
   letter-spacing: 0.5px;
   color: var(--text-tertiary);
 }
+
+.clearBtn {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  transition: all var(--transition-fast);
+}
+
+.clearBtn:hover {
+  background: var(--bg-hover);
+  color: #e55;
+}
