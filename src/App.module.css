@@ -13,11 +13,13 @@
 
 .sidebar {
   width: 300px;
+  flex-shrink: 0;
   background: rgba(255, 255, 255, 0.5);
   border-right: 1px solid var(--border-light);
   display: flex;
   flex-direction: column;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .centerStage {

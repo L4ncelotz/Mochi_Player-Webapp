@@ -37,10 +37,15 @@ export function TrackContextMenu({ trackId, x, y, onClose }: Props) {
     };
   }, [onClose]);
 
-  // Adjust position to stay within viewport bounds
+  // Adjust position to stay within viewport bounds (auto-flip)
+  const menuHeight = 300; // estimated max height
+  const menuWidth = 200; // estimated width
+  
   const style: React.CSSProperties = {
-    top: Math.min(y, window.innerHeight - 200),
-    left: Math.min(x, window.innerWidth - 200),
+    top: y + menuHeight > window.innerHeight ? Math.max(0, y - menuHeight) : y,
+    left: x + menuWidth > window.innerWidth ? Math.max(0, x - menuWidth) : x,
+    maxHeight: 'calc(100vh - 40px)',
+    overflowY: 'auto'
   };
 
   const handleAction = (action: () => void) => {

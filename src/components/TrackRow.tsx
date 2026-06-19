@@ -61,10 +61,13 @@ export const TrackRow = memo(function TrackRow({ track, index, onContextMenu }: 
       </div>
 
       <div className={styles.info}>
-        <div className={`${styles.trackTitle} ${isCurrent ? styles.activeTitle : ''}`}>
+        <div 
+          className={`${styles.trackTitle} ${isCurrent ? styles.activeTitle : ''}`}
+          title={track.title}
+        >
           {track.title}
         </div>
-        {track.artist && <div className={styles.trackArtist}>{track.artist}</div>}
+        {track.artist && <div className={styles.trackArtist} title={track.artist}>{track.artist}</div>}
       </div>
       
       <button 
