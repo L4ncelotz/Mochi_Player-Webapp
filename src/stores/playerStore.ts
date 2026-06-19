@@ -208,6 +208,7 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
       volume,
       shuffle,
       repeatMode,
+    });
   },
 }));
 
