@@ -19,6 +19,11 @@ export function useKeyboardShortcuts() {
         e.preventDefault();
         togglePlay();
       }
+
+      if (e.code === 'KeyM') {
+        e.preventDefault();
+        usePlayerStore.getState().toggleMute();
+      }
     };
 
     window.addEventListener('keydown', handler);

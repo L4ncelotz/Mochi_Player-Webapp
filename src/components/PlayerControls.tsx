@@ -79,8 +79,12 @@ export function PlayerControls({ onSeek }: Props) {
 
       {/* Volume */}
       <div className={styles.volumeRow}>
-        <span className={styles.volumeIcon} onClick={() => setVolume(volume > 0 ? 0 : 0.8)}>
-          {volume === 0 ? '🔇' : volume < 0.5 ? '🔉' : '🔊'}
+        <span 
+          className={styles.volumeIcon} 
+          onClick={usePlayerStore.getState().toggleMute}
+          title="Toggle Mute"
+        >
+          {usePlayerStore((s) => s.isMuted) || volume === 0 ? '🔇' : volume < 0.5 ? '🔉' : '🔊'}
         </span>
         <input
           className={styles.volumeSlider}

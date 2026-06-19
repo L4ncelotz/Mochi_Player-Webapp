@@ -57,12 +57,13 @@ export function useAudioPlayer() {
     }
   }, [isPlaying, currentTrackId, pause]);
 
-  // Volume
+  // Volume & Mute
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.volume = volume;
+      audioRef.current.muted = usePlayerStore.getState().isMuted;
     }
-  }, [volume]);
+  }, [volume, usePlayerStore((s) => s.isMuted)]);
 
   // Time updates
   useEffect(() => {
