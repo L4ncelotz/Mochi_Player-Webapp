@@ -93,7 +93,7 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
   currentTime: 0,
   duration: 0,
   hasError: false,
-  volume: stored?.volume ?? 0.8,
+  volume: stored?.settings?.defaultVolume ?? 0.8,
   isMuted: stored?.isMuted ?? false,
   shuffle: stored?.shuffle ?? false,
   repeatMode: (stored?.repeatMode as RepeatMode) ?? 'off',
@@ -120,7 +120,8 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
     set((s) => {
       const updated = { ...s.settings, ...newSettings };
       if (newSettings.reduceMotion !== undefined) {
-        document.body.dataset.reduceMotion = String(newSettings.reduceMotion);
+        const root = document.getElementById('root');
+        if (root) root.dataset.reduceMotion = String(newSettings.reduceMotion);
       }
       return { settings: updated };
     });

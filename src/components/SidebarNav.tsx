@@ -62,13 +62,6 @@ export function SidebarNav({ currentView, onChangeView }: Props) {
         <BookOpen size={16} />
         <span>Mochi Diary</span>
       </button>
-      <button 
-        className={styles.navItem}
-        onClick={toggleSettings}
-      >
-        <Settings size={16} />
-        <span>Settings</span>
-      </button>
 
       <div 
         className={styles.section} 

@@ -1,9 +1,20 @@
+import { useEffect } from 'react';
 import { X, Monitor, Volume2, FastForward } from 'lucide-react';
 import { usePlayerStore } from '../stores/playerStore';
 import styles from './SettingsModal.module.css';
 
 export function SettingsModal() {
   const { isSettingsOpen, toggleSettings, settings, updateSettings } = usePlayerStore();
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isSettingsOpen) {
+        toggleSettings();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isSettingsOpen, toggleSettings]);
 
   if (!isSettingsOpen) return null;
 
