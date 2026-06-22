@@ -1,4 +1,4 @@
-import { useCallback, type DragEvent } from 'react';
+import { useCallback, useEffect, type DragEvent } from 'react';
 import { AppShell } from './components/AppShell';
 import { TitleBar } from './components/TitleBar';
 import { NowPlayingCard } from './components/NowPlayingCard';
@@ -8,6 +8,7 @@ import { CenterStageEmpty } from './components/CenterStageEmpty';
 import { Playlist } from './components/Playlist';
 import { ToastHost } from './components/ToastHost';
 import { MochiDiaryDrawer } from './components/MochiDiaryDrawer';
+import { SettingsModal } from './components/SettingsModal';
 import { GlobalPlayer } from './components/GlobalPlayer';
 import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts';
 import { useFileImport } from './hooks/useFileImport';
@@ -19,11 +20,17 @@ export default function App() {
   const tracks = usePlayerStore((s) => s.tracks);
   const currentTrackId = usePlayerStore((s) => s.currentTrackId);
   const setSeekRequest = usePlayerStore((s) => s.setSeekRequest);
+  const settings = usePlayerStore((s) => s.settings);
   const currentTrack = tracks.find(t => t.id === currentTrackId);
   const { importFiles } = useFileImport();
 
   useKeyboardShortcuts();
   useMediaSession();
+
+  // Initialize reduce motion attribute
+  useEffect(() => {
+    document.body.dataset.reduceMotion = String(settings.reduceMotion);
+  }, []); // Only run once on mount, updates are handled in playerStore
 
   // Global drop handler (entire app window)
   const handleDragOver = useCallback((e: DragEvent) => {
@@ -60,6 +67,7 @@ export default function App() {
         {hasPlaylist && <PlayerControls onSeek={setSeekRequest} />}
         <ToastHost />
         <GlobalPlayer />
+        <SettingsModal />
       </AppShell>
     </div>
   );

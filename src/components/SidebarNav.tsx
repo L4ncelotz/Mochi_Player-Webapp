@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ListMusic, Heart, Clock, BarChart2, BookOpen, ChevronDown, ChevronRight } from 'lucide-react';
+import { ListMusic, Heart, Clock, BarChart2, BookOpen, ChevronDown, ChevronRight, Settings } from 'lucide-react';
 import { usePlayerStore } from '../stores/playerStore';
 import { MOODS } from '../utils/moods';
 import styles from './SidebarNav.module.css';
@@ -12,7 +12,7 @@ interface Props {
 }
 
 export function SidebarNav({ currentView, onChangeView }: Props) {
-  const { isDiaryOpen, toggleDiary, queue } = usePlayerStore();
+  const { isDiaryOpen, toggleDiary, queue, toggleSettings } = usePlayerStore();
   const [isMoodsExpanded, setIsMoodsExpanded] = useState(true);
 
   return (
@@ -61,6 +61,13 @@ export function SidebarNav({ currentView, onChangeView }: Props) {
       >
         <BookOpen size={16} />
         <span>Mochi Diary</span>
+      </button>
+      <button 
+        className={styles.navItem}
+        onClick={toggleSettings}
+      >
+        <Settings size={16} />
+        <span>Settings</span>
       </button>
 
       <div 

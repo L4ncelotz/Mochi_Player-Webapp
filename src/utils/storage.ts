@@ -21,6 +21,11 @@ interface StoredData {
   playCounts?: Record<string, number>;
   dailySeconds?: Record<string, number>;
   trackMoods?: Record<string, string[]>;
+  settings?: {
+    reduceMotion: boolean;
+    autoplayNext: boolean;
+    defaultVolume: number;
+  };
 }
 
 export function loadState(): StoredData | null {

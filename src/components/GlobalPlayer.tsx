@@ -15,7 +15,8 @@ export function GlobalPlayer() {
     setDuration,
     setCurrentTime,
     next,
-    pause
+    pause,
+    settings
   } = usePlayerStore();
 
   const currentTrack = tracks.find(t => t.id === currentTrackId);
@@ -73,7 +74,13 @@ export function GlobalPlayer() {
       {...({
         onProgress: (state: any) => setCurrentTime(state.playedSeconds),
         onDuration: (duration: number) => setDuration(duration),
-        onEnded: () => next(),
+        onEnded: () => {
+          if (settings.autoplayNext) {
+            next();
+          } else {
+            pause();
+          }
+        },
         onError: (e: any) => {
           console.error('Player error', e);
           setHasError(true);

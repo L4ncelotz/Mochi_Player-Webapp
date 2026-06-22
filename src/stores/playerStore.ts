@@ -51,6 +51,16 @@ interface PlayerStore {
   // UI State
   isDiaryOpen: boolean;
   toggleDiary: () => void;
+  isSettingsOpen: boolean;
+  toggleSettings: () => void;
+
+  // Settings
+  settings: {
+    reduceMotion: boolean;
+    autoplayNext: boolean;
+    defaultVolume: number;
+  };
+  updateSettings: (newSettings: Partial<PlayerStore['settings']>) => void;
 
   // Volume
   volume: number;
@@ -97,6 +107,25 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
 
   isDiaryOpen: false,
   toggleDiary: () => set((s) => ({ isDiaryOpen: !s.isDiaryOpen })),
+  
+  isSettingsOpen: false,
+  toggleSettings: () => set((s) => ({ isSettingsOpen: !s.isSettingsOpen })),
+
+  settings: stored?.settings ?? {
+    reduceMotion: false,
+    autoplayNext: true,
+    defaultVolume: 0.8,
+  },
+  updateSettings: (newSettings) => {
+    set((s) => {
+      const updated = { ...s.settings, ...newSettings };
+      if (newSettings.reduceMotion !== undefined) {
+        document.body.dataset.reduceMotion = String(newSettings.reduceMotion);
+      }
+      return { settings: updated };
+    });
+    get().persist();
+  },
 
   addTracks: (newTracks) => {
     set((s) => {
@@ -360,6 +389,7 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
       playCounts,
       dailySeconds,
       trackMoods,
+      settings: get().settings,
     });
   },
 }));

@@ -201,6 +201,30 @@
 
 /* ── Marquee ──────────────────────────────────────────────────── */
 
+.marqueeText {
+  display: inline-block;
+  padding-right: 32px;
+}
+
+/* ── Reduce Motion ───────────────────────────────────────────── */
+:global([data-reduce-motion="true"]) .ambientBlob {
+  display: none;
+}
+
+:global([data-reduce-motion="true"]) .glowRing {
+  animation: none;
+  box-shadow: 0 0 16px 4px rgba(255, 141, 161, 0.2);
+}
+
+:global([data-reduce-motion="true"]) .artFloat {
+  animation: none;
+  transform: translateY(0);
+}
+
+:global([data-reduce-motion="true"]) .note {
+  display: none;
+}
+
 .marqueeTrack {
   display: flex;
   gap: 48px;
