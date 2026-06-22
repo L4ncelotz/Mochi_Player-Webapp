@@ -28,9 +28,14 @@ export function PlayerControls({ onSeek }: Props) {
   const isDisabled = !currentTrackId || !track;
   const fillPct = duration > 0 ? (currentTime / duration) * 100 : 0;
 
-  const timeString = duration > 0 
-    ? `${formatTime(currentTime)} / ${formatTime(duration)}`
-    : (isPlaying && currentTime > 0 ? `Live / ${formatTime(currentTime)}` : 'Loading...');
+  let timeString = '';
+  if (duration > 0) {
+    timeString = `${formatTime(currentTime)} / ${formatTime(duration)}`;
+  } else if (isPlaying) {
+    timeString = currentTime > 0 ? `${formatTime(currentTime)}` : 'Playing · Unknown duration';
+  } else {
+    timeString = 'Loading...';
+  }
 
   return (
     <div className={`${styles.controls} ${isDisabled ? styles.disabled : ''}`}>
@@ -75,7 +80,11 @@ export function PlayerControls({ onSeek }: Props) {
               <div className={styles.trackText}>
                 <div className={styles.trackTitle} title={track.title}>{track.title}</div>
                 <div className={styles.trackArtistTime}>
-                  {track.artist ? `${track.artist} · ` : ''}{timeString}
+                  {track.artist && <span>{track.artist}</span>}
+                  {track.artist && <span className={styles.dot}>·</span>}
+                  <span className={styles.sourceBadge}>{track.extension}</span>
+                  <span className={styles.dot}>·</span>
+                  <span>{timeString}</span>
                 </div>
               </div>
             </div>
@@ -121,11 +130,7 @@ export function PlayerControls({ onSeek }: Props) {
           </div>
         </div>
 
-        {/* Right: Volume + Extra */}
         <div className={styles.rightSide}>
-          {track && (
-            <span className={styles.sourceBadge}>{track.extension}</span>
-          )}
           <VolumeSlider />
         </div>
       </div>

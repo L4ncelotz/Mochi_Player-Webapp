@@ -38,14 +38,17 @@ export function SettingsModal() {
                   <div className={styles.settingDesc}>Disable background animations and floating elements</div>
                 </div>
               </div>
-              <label className={styles.switch}>
-                <input 
-                  type="checkbox" 
-                  checked={settings.reduceMotion}
-                  onChange={(e) => updateSettings({ reduceMotion: e.target.checked })}
-                />
-                <span className={styles.slider}></span>
-              </label>
+              <div className={styles.switchWrapper}>
+                <span className={styles.switchLabel}>{settings.reduceMotion ? 'On' : 'Off'}</span>
+                <label className={styles.switch}>
+                  <input 
+                    type="checkbox" 
+                    checked={settings.reduceMotion}
+                    onChange={(e) => updateSettings({ reduceMotion: e.target.checked })}
+                  />
+                  <span className={styles.slider}></span>
+                </label>
+              </div>
             </div>
 
             <div className={styles.settingRow}>
@@ -56,14 +59,17 @@ export function SettingsModal() {
                   <div className={styles.settingDesc}>Automatically play the next track in queue or playlist</div>
                 </div>
               </div>
-              <label className={styles.switch}>
-                <input 
-                  type="checkbox" 
-                  checked={settings.autoplayNext}
-                  onChange={(e) => updateSettings({ autoplayNext: e.target.checked })}
-                />
-                <span className={styles.slider}></span>
-              </label>
+              <div className={styles.switchWrapper}>
+                <span className={styles.switchLabel}>{settings.autoplayNext ? 'On' : 'Off'}</span>
+                <label className={styles.switch}>
+                  <input 
+                    type="checkbox" 
+                    checked={settings.autoplayNext}
+                    onChange={(e) => updateSettings({ autoplayNext: e.target.checked })}
+                  />
+                  <span className={styles.slider}></span>
+                </label>
+              </div>
             </div>
 
             <div className={styles.settingRow}>

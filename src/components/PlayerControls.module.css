@@ -95,14 +95,20 @@
 }
 
 .trackArtistTime {
+  display: flex;
+  align-items: center;
+  gap: 4px;
   font-size: 11px;
   color: var(--text-tertiary);
   font-weight: 500;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
   margin-top: 2px;
+}
+
+.dot {
+  opacity: 0.5;
 }
 
 .transport {

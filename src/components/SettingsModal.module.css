@@ -97,6 +97,21 @@
   line-height: 1.4;
 }
 
+.switchWrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.switchLabel {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+  width: 24px;
+  text-align: right;
+}
+
 /* Switch Styles */
 .switch {
   position: relative;
