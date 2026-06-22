@@ -1,6 +1,5 @@
 .miniPlayer {
   display: flex;
-  flex-direction: column;
   width: 100vw;
   height: 100vh;
   background: var(--bg-primary);
@@ -8,17 +7,15 @@
   font-family: 'Inter', sans-serif;
   overflow: hidden;
   position: relative;
+  align-items: center;
 }
 
 .backgroundBlur {
   position: absolute;
-  top: -10%;
-  left: -10%;
-  width: 120%;
-  height: 120%;
+  inset: -20%;
   background-size: cover;
   background-position: center;
-  filter: blur(20px) opacity(0.3);
+  filter: blur(24px) opacity(0.2);
   z-index: 0;
 }
 
@@ -26,25 +23,24 @@
   position: relative;
   z-index: 1;
   display: flex;
-  flex-direction: column;
+  width: 100%;
   height: 100%;
-  padding: var(--space-md);
-  justify-content: center;
+  padding: 16px;
   align-items: center;
-  gap: var(--space-md);
+  gap: 16px;
 }
 
 .artWrapper {
-  width: 120px;
-  height: 120px;
+  width: 80px;
+  height: 80px;
   border-radius: 12px;
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-sm);
   overflow: hidden;
-  background: linear-gradient(135deg, var(--pink), var(--purple));
+  flex-shrink: 0;
+  background: var(--bg-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
 }
 
 .fallbackArt {
@@ -53,6 +49,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  background: linear-gradient(135deg, var(--pink), var(--purple));
 }
 
 .fallbackIcon {
@@ -65,75 +62,90 @@
   object-fit: cover;
 }
 
+.rightPanel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+  gap: 12px;
+}
+
 .info {
-  text-align: center;
-  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .title {
-  font-size: 16px;
-  font-weight: 700;
+  font-size: 14px;
+  font-weight: 600;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  color: var(--text-primary);
 }
 
 .artist {
-  font-size: 12px;
+  font-size: 11px;
   color: var(--text-secondary);
-  margin-top: 2px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  margin-top: 2px;
 }
 
 .controls {
   display: flex;
   align-items: center;
-  gap: var(--space-md);
-  margin-top: var(--space-sm);
+  gap: 16px;
 }
 
 .btn {
   background: none;
   border: none;
-  color: var(--text-primary);
+  color: var(--text-secondary);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 8px;
-  border-radius: 50%;
-  transition: all var(--transition-fast);
+  transition: all 0.2s;
+  padding: 0;
 }
 
 .btn:hover {
-  background: rgba(0, 0, 0, 0.05);
+  color: var(--text-primary);
 }
 
 .playBtn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
   background: var(--pink);
   color: white;
-  width: 48px;
-  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(255, 141, 161, 0.4);
 }
 
 .playBtn:hover {
-  background: var(--purple);
+  background: #ff7a98;
+  color: white;
   transform: scale(1.05);
 }
 
 .progressContainer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
   width: 100%;
-  height: 4px;
-  background: rgba(0, 0, 0, 0.1);
-  border-radius: 2px;
-  overflow: hidden;
-  margin-top: var(--space-xs);
+  height: 3px;
+  background: var(--border-light);
+  z-index: 2;
 }
 
 .progressBar {
   height: 100%;
-  background: linear-gradient(90deg, var(--pink), var(--purple));
+  background: var(--pink);
   transition: width 0.1s linear;
 }

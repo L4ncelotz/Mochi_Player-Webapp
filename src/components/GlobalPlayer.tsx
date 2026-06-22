@@ -1,11 +1,11 @@
-import { useRef, useEffect, useState } from 'react';
-import ReactPlayer from 'react-player';
-import { usePlayerStore } from '../stores/playerStore';
+import { useEffect, useRef, useState } from "react";
+import ReactPlayer from "react-player";
+import { usePlayerStore } from "../stores/playerStore";
 
 export function GlobalPlayer() {
   const playerRef = useRef<any>(null);
   const [hasError, setHasError] = useState(false);
-  
+
   const {
     tracks,
     currentTrackId,
@@ -16,10 +16,10 @@ export function GlobalPlayer() {
     setCurrentTime,
     next,
     pause,
-    settings
+    settings,
   } = usePlayerStore();
 
-  const currentTrack = tracks.find(t => t.id === currentTrackId);
+  const currentTrack = tracks.find((t) => t.id === currentTrackId);
 
   useEffect(() => {
     setHasError(false);
@@ -49,14 +49,12 @@ export function GlobalPlayer() {
   }, [isPlaying, hasError]);
 
   useEffect(() => {
-    const unsub = usePlayerStore.subscribe(
-      (state) => {
-        if (state.seekRequest !== null && playerRef.current) {
-          playerRef.current.seekTo(state.seekRequest, 'seconds');
-          usePlayerStore.getState().clearSeekRequest();
-        }
+    const unsub = usePlayerStore.subscribe((state) => {
+      if (state.seekRequest !== null && playerRef.current) {
+        playerRef.current.seekTo(state.seekRequest, "seconds");
+        usePlayerStore.getState().clearSeekRequest();
       }
-    );
+    });
     return unsub;
   }, []);
 
@@ -64,32 +62,32 @@ export function GlobalPlayer() {
     return null;
   }
 
+  const Player = ReactPlayer as any;
+
   return (
-    <ReactPlayer
+    <Player
       ref={playerRef}
       url={currentTrack.objectUrl}
       playing={isPlaying}
       volume={volume}
       muted={isMuted}
-      {...({
-        onProgress: (state: any) => setCurrentTime(state.playedSeconds),
-        onDuration: (duration: number) => setDuration(duration),
-        onEnded: () => {
-          if (settings.autoplayNext) {
-            next();
-          } else {
-            pause();
-          }
-        },
-        onError: (e: any) => {
-          console.error('Player error', e);
-          setHasError(true);
+      onProgress={(state: any) => setCurrentTime(state.playedSeconds)}
+      onDuration={(duration: number) => setDuration(duration)}
+      onEnded={() => {
+        if (settings.autoplayNext) {
+          next();
+        } else {
           pause();
         }
-      } as any)}
+      }}
+      onError={(e: any) => {
+        console.error("Player error", e);
+        setHasError(true);
+        pause();
+      }}
       width="0"
       height="0"
-      style={{ display: 'none' }}
+      style={{ display: "none" }}
     />
   );
 }
