@@ -23,8 +23,14 @@ export function PlayerControls({ onSeek }: Props) {
     cycleRepeat,
   } = usePlayerStore();
 
-  const isDisabled = !currentTrackId;
+  const track = usePlayerStore((state) => state.tracks.find(t => t.id === currentTrackId));
+
+  const isDisabled = !currentTrackId || !track;
   const fillPct = duration > 0 ? (currentTime / duration) * 100 : 0;
+
+  const timeString = duration > 0 
+    ? `${formatTime(currentTime)} / ${formatTime(duration)}`
+    : (isPlaying && currentTime > 0 ? `Live / ${formatTime(currentTime)}` : 'Loading...');
 
   return (
     <div className={`${styles.controls} ${isDisabled ? styles.disabled : ''}`}>
@@ -45,16 +51,34 @@ export function PlayerControls({ onSeek }: Props) {
       </div>
 
       <div className={styles.controlsContent}>
-        {/* Left: Time */}
+        {/* Left: Track Info + Time */}
         <div className={styles.leftSide}>
           {isDisabled ? (
-            <span className={styles.disabledText}>Select a track to play</span>
+            <div className={styles.emptyTrackInfo}>
+              <div className={styles.miniCoverEmpty}>
+                <img src="/mochi.svg" alt="Mochi" />
+              </div>
+              <div className={styles.trackText}>
+                <div className={styles.trackTitle}>Select a track to play</div>
+                <div className={styles.trackArtistTime}>0:00 / 0:00</div>
+              </div>
+            </div>
           ) : (
-            <span className={styles.timeDisplay}>
-              {duration > 0 
-                ? `${formatTime(currentTime)} / ${formatTime(duration)}`
-                : (isPlaying && currentTime > 0 ? `Live / ${formatTime(currentTime)}` : 'Loading...')}
-            </span>
+            <div className={styles.trackInfo}>
+              <div className={styles.miniCover}>
+                {track.coverArt ? (
+                  <img src={track.coverArt} alt={track.title} />
+                ) : (
+                  <img src="/mochi.svg" alt="Mochi" className={styles.fallbackCover} />
+                )}
+              </div>
+              <div className={styles.trackText}>
+                <div className={styles.trackTitle} title={track.title}>{track.title}</div>
+                <div className={styles.trackArtistTime}>
+                  {track.artist ? `${track.artist} · ` : ''}{timeString}
+                </div>
+              </div>
+            </div>
           )}
         </div>
 
@@ -97,8 +121,11 @@ export function PlayerControls({ onSeek }: Props) {
           </div>
         </div>
 
-        {/* Right: Volume */}
-        <div className={styles.volumeWrapper}>
+        {/* Right: Volume + Extra */}
+        <div className={styles.rightSide}>
+          {track && (
+            <span className={styles.sourceBadge}>{track.extension}</span>
+          )}
           <VolumeSlider />
         </div>
       </div>
