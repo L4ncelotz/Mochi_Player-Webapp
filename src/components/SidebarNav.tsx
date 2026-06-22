@@ -73,7 +73,10 @@ export function SidebarNav({ currentView, onChangeView }: Props) {
               <button
                 key={mood.id}
                 className={`${styles.moodPill} ${isActive ? styles.moodPillActive : ''}`}
-                onClick={() => { onChangeView(`mood:${mood.id}`); if (isDiaryOpen) toggleDiary(); }}
+                onClick={() => { 
+                  onChangeView(isActive ? 'all' : `mood:${mood.id}`); 
+                  if (isDiaryOpen) toggleDiary(); 
+                }}
                 style={{ '--mood-color': mood.color } as React.CSSProperties}
               >
                 {mood.label}
