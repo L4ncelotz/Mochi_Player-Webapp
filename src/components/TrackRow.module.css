@@ -73,7 +73,7 @@
 }
 
 .info {
-  flex: 1;
+  flex: 1 1 50%;
   min-width: 0;
 }
 
@@ -84,6 +84,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   color: var(--text-primary);
+  width: 100%;
 }
 
 .activeTitle {
@@ -96,6 +97,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  width: 100%;
 }
 
 .playState {
@@ -146,6 +148,7 @@
   color: var(--text-tertiary);
   font-variant-numeric: tabular-nums;
   margin-right: var(--space-sm);
+  flex-shrink: 0;
 }
 
 .badge {

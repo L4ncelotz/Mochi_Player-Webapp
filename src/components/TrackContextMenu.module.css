@@ -54,6 +54,25 @@
   margin: 4px 0;
 }
 
+.trackHeader {
+  padding: 8px 12px;
+  margin-bottom: 4px;
+}
+
+.trackHeaderTitle {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+.trackHeaderArtist {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  margin-top: 2px;
+}
+
 .sectionTitle {
   font-size: 10px;
   font-weight: 600;

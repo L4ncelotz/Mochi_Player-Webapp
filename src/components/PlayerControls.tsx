@@ -51,7 +51,9 @@ export function PlayerControls({ onSeek }: Props) {
             <span className={styles.disabledText}>Select a track to play</span>
           ) : (
             <span className={styles.timeDisplay}>
-              {formatTime(currentTime)} / {formatTime(duration)}
+              {duration > 0 
+                ? `${formatTime(currentTime)} / ${formatTime(duration)}`
+                : (isPlaying && currentTime > 0 ? `Live / ${formatTime(currentTime)}` : 'Loading...')}
             </span>
           )}
         </div>

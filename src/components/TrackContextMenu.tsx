@@ -53,8 +53,19 @@ export function TrackContextMenu({ trackId, x, y, onClose }: Props) {
     onClose();
   };
 
+  const track = usePlayerStore.getState().tracks.find(t => t.id === trackId);
+
   return (
     <div ref={menuRef} className={styles.menu} style={style}>
+      {track && (
+        <>
+          <div className={styles.trackHeader}>
+            <div className={styles.trackHeaderTitle}>{track.title}</div>
+            {track.artist && <div className={styles.trackHeaderArtist}>{track.artist}</div>}
+          </div>
+          <div className={styles.divider} />
+        </>
+      )}
       <button className={styles.item} onClick={() => handleAction(() => play(trackId))}>
         <Play size={14} className={styles.icon} />
         Play now

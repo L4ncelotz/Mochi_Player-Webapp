@@ -129,31 +129,58 @@
   box-shadow: 0 4px 12px rgba(255, 141, 161, 0.3);
 }
 
-.small {
-  padding: var(--space-md) var(--space-sm);
-  margin: var(--space-md);
-  gap: var(--space-sm);
+.smallCollapsed {
+  padding: var(--space-md);
+  display: flex;
+  justify-content: center;
 }
 
-.small .icon {
-  font-size: 24px;
-}
-
-.small .icon svg {
-  width: 24px;
-  height: 24px;
-}
-
-.small .label,
-.small .formats,
-.small .browseBtn,
-.small .divider {
-  display: none;
-}
-
-.small::after {
-  content: "Drop to add tracks";
+.addMusicBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-card);
+  color: var(--pink);
+  border: 1px dashed var(--pink);
+  padding: 10px 24px;
+  border-radius: var(--radius-full);
   font-size: 13px;
-  color: var(--text-secondary);
-  font-weight: 500;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  width: 100%;
+  justify-content: center;
+}
+
+.addMusicBtn:hover {
+  background: rgba(255, 141, 161, 0.1);
+  transform: translateY(-1px);
+}
+
+.smallExpanded {
+  padding: var(--space-lg) var(--space-md);
+  margin: var(--space-md);
+  gap: var(--space-md);
+  position: relative;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: none;
+  border: none;
+  color: var(--text-tertiary);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+}
+
+.closeBtn:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
 }
