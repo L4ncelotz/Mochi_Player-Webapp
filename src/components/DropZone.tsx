@@ -66,8 +66,10 @@ export function DropZone({ small }: { small?: boolean }) {
 
       <form 
         className={styles.ytForm} 
+        onClick={(e) => e.stopPropagation()}
         onSubmit={(e) => {
           e.preventDefault();
+          e.stopPropagation();
           const form = e.currentTarget;
           const input = form.elements.namedItem('ytUrl') as HTMLInputElement;
           if (input.value) {
