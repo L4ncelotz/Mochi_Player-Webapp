@@ -113,3 +113,19 @@
   color: #e55;
   background: rgba(238, 85, 85, 0.1);
 }
+
+.removeBtn:active {
+  transform: scale(0.9);
+}
+
+.emptyState {
+  padding: var(--space-xl) var(--space-md);
+  text-align: center;
+  color: var(--text-tertiary);
+  font-size: 13px;
+  font-weight: 500;
+  font-style: italic;
+  background: var(--bg-hover);
+  border-radius: var(--radius-md);
+  margin-top: var(--space-sm);
+}

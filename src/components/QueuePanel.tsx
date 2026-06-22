@@ -5,7 +5,18 @@ import styles from './QueuePanel.module.css';
 export function QueuePanel() {
   const { queue, tracks, removeFromQueue, clearQueue } = usePlayerStore();
 
-  if (queue.length === 0) return null;
+  if (queue.length === 0) {
+    return (
+      <div className={styles.container}>
+        <div className={styles.header}>
+          <span className={styles.title}>Up next</span>
+        </div>
+        <div className={styles.emptyState}>
+          Your queue is empty.
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.container}>

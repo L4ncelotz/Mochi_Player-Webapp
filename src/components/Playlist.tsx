@@ -56,41 +56,48 @@ export function Playlist() {
     <div className={styles.playlist} id="playlist">
       <SidebarNav currentView={currentView} onChangeView={setCurrentView} />
 
-      <div className={styles.header}>
-        <span className={styles.headerTitle}>{viewTitle}</span>
-        {currentView === 'all' && (
-          <button className={styles.clearBtn} onClick={clearPlaylist}>
-            Clear
-          </button>
-        )}
-      </div>
-      
-      <div className={styles.searchContainer}>
-        <Search className={styles.searchIcon} size={16} />
-        <input
-          type="text"
-          className={styles.searchInput}
-          placeholder="Search tracks..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-      </div>
+      {currentView === 'queue' ? (
+        <div className={styles.queueWrapper}>
+          <QueuePanel />
+        </div>
+      ) : (
+        <>
+          <div className={styles.header}>
+            <span className={styles.headerTitle}>{viewTitle}</span>
+            {currentView === 'all' && (
+              <button className={styles.clearBtn} onClick={clearPlaylist}>
+                Clear
+              </button>
+            )}
+          </div>
+          
+          <div className={styles.searchContainer}>
+            <Search className={styles.searchIcon} size={16} />
+            <input
+              type="text"
+              className={styles.searchInput}
+              placeholder="Search tracks..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
 
-      <div className={styles.trackList}>
-        {filteredTracks.map((track) => (
-          <TrackRow 
-            key={track.id} 
-            track={track} 
-            index={tracks.indexOf(track)} 
-            onContextMenu={(e, trackId) => setContextMenu({ x: e.clientX, y: e.clientY, trackId })}
-          />
-        ))}
-        {filteredTracks.length === 0 && (
-          <div className={styles.emptySearch}>No tracks found for "{searchQuery}"</div>
-        )}
-      </div>
+          <div className={styles.trackList}>
+            {filteredTracks.map((track) => (
+              <TrackRow 
+                key={track.id} 
+                track={track} 
+                index={tracks.indexOf(track)} 
+                onContextMenu={(e, trackId) => setContextMenu({ x: e.clientX, y: e.clientY, trackId })}
+              />
+            ))}
+            {filteredTracks.length === 0 && (
+              <div className={styles.emptySearch}>No tracks found for "{searchQuery}"</div>
+            )}
+          </div>
+        </>
+      )}
 
-      <QueuePanel />
       <DropZone small />
 
       {contextMenu && (

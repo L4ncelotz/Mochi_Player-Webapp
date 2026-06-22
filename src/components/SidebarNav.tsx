@@ -4,7 +4,7 @@ import { usePlayerStore } from '../stores/playerStore';
 import { MOODS } from '../utils/moods';
 import styles from './SidebarNav.module.css';
 
-export type PlaylistView = 'all' | 'favorites' | 'recent' | 'mostPlayed' | string;
+export type PlaylistView = 'all' | 'favorites' | 'recent' | 'mostPlayed' | 'queue' | string;
 
 interface Props {
   currentView: PlaylistView;
@@ -12,7 +12,7 @@ interface Props {
 }
 
 export function SidebarNav({ currentView, onChangeView }: Props) {
-  const { isDiaryOpen, toggleDiary } = usePlayerStore();
+  const { isDiaryOpen, toggleDiary, queue } = usePlayerStore();
   const [isMoodsExpanded, setIsMoodsExpanded] = useState(true);
 
   return (
@@ -24,6 +24,13 @@ export function SidebarNav({ currentView, onChangeView }: Props) {
       >
         <ListMusic size={16} />
         <span>All Tracks</span>
+      </button>
+      <button 
+        className={`${styles.navItem} ${currentView === 'queue' && !isDiaryOpen ? styles.active : ''}`}
+        onClick={() => { onChangeView('queue'); if (isDiaryOpen) toggleDiary(); }}
+      >
+        <ListMusic size={16} />
+        <span>Play Queue {queue.length > 0 ? `(${queue.length})` : ''}</span>
       </button>
       <button 
         className={`${styles.navItem} ${currentView === 'favorites' && !isDiaryOpen ? styles.active : ''}`}
